@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {RoomsService} from './rooms.service';
-import {Resort} from './resort.model';
+import {Resort} from '../resort.model';
 import {Subscription} from 'rxjs';
+import {RoomsService} from '../rooms.service';
 
 @Component({
-  selector: 'app-room-mgmt',
-  templateUrl: './room-mgmt.component.html',
-  styleUrls: ['./room-mgmt.component.css']
+  selector: 'app-resort',
+  templateUrl: './resort.component.html',
+  styleUrls: ['./resort.component.css']
 })
-export class RoomMgmtComponent implements OnInit {
+export class ResortComponent implements OnInit {
+
   resorts: Resort[] = [];
   subscription: Subscription;
 
@@ -20,7 +21,7 @@ export class RoomMgmtComponent implements OnInit {
         this.resorts = resorts;
       }
     );
-    this.resorts = this.roomsService.getResorts();
+    this.roomsService.getResorts();
   }
 
   onNewResort() {}
