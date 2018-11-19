@@ -18,7 +18,7 @@ export class RoomsService {
   }
 
   getResorts() {
-    this.http.get('http://localhost:5000/api/resorts/').subscribe(
+    this.http.get('https://dvc-restful.appspot.com/api/resorts/').subscribe(
       (resorts: Resort[]) => {
         this.resorts = resorts;
         this.resortsChanged.next(this.resorts.slice());
@@ -28,7 +28,7 @@ export class RoomsService {
   }
 
   getRoomTypes() {
-    this.http.get('http://localhost:5000/api/room_types/').subscribe(
+    this.http.get('https://dvc-restful.appspot.com/api/room_types/').subscribe(
       (roomTypes: RoomType[]) => {
         this.roomTypes = roomTypes;
         this.roomTypesChanged.next(this.roomTypes.slice());
@@ -38,7 +38,7 @@ export class RoomsService {
   }
 
   getBookableRooms() {
-    this.http.get('http://localhost:5000/api/bookable_rooms/').subscribe(
+    this.http.get('https://dvc-restful.appspot.com/api/bookable_rooms/').subscribe(
       (bookableRooms: BookableRoom[]) => {
         this.bookableRooms = bookableRooms;
         this.bookableRoomsChanged.next(this.bookableRooms.slice());

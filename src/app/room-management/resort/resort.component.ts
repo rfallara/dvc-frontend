@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Resort} from '../resort.model';
 import {Subscription} from 'rxjs';
 import {RoomsService} from '../rooms.service';
@@ -8,7 +8,7 @@ import {RoomsService} from '../rooms.service';
   templateUrl: './resort.component.html',
   styleUrls: ['./resort.component.css']
 })
-export class ResortComponent implements OnInit {
+export class ResortComponent implements OnInit, OnDestroy {
 
   resorts: Resort[] = [];
   subscription: Subscription;
@@ -22,6 +22,10 @@ export class ResortComponent implements OnInit {
       }
     );
     this.roomsService.getResorts();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onNewResort() {}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {RoomsService} from '../rooms.service';
 import {RoomType} from '../room-type.model';
@@ -8,7 +8,7 @@ import {RoomType} from '../room-type.model';
   templateUrl: './room-type.component.html',
   styleUrls: ['./room-type.component.css']
 })
-export class RoomTypeComponent implements OnInit {
+export class RoomTypeComponent implements OnInit, OnDestroy {
 
   roomTypes: RoomType[] = [];
   subscription: Subscription;
@@ -22,6 +22,10 @@ export class RoomTypeComponent implements OnInit {
       }
     );
     this.roomsService.getRoomTypes();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onNewRoomType() {}
