@@ -1,31 +1,25 @@
-<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
-  <!--<div class="navbar-brand">-->
-    <!--<span class="glyphicon glyphicon-plane"></span>-->
-    <!--Point Mgmt-->
-  <!--</div>-->
-  <!--<ul class="navbar-nav">-->
-    <!--<li class="nav-item">Trips</li>-->
-    <!--<li class="nav-item">Rooms</li>-->
-    <!--<li class="nav-item">Points</li>-->
-  <!--</ul>-->
-<!--</nav>-->
-
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand" routerLink="">DVC</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+          aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Trips</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Rooms</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Points</a>
-      </li>
-    </ul>
-  </div>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav" *ngIf="checkLoggedIn()">
+
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="/trips">Trips</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="/rooms">Rooms</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="/points">Points</a>
+        </li>
+      </ul>
+    </div>
+  <ul class="nav navbar ml-auto">
+    <app-login></app-login>
+  </ul>
+
 </nav>

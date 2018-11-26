@@ -12,6 +12,11 @@ import {AuthService} from './authService.service';
 import { LoginComponent } from './login/login.component';
 import {FormsModule} from '@angular/forms';
 import {AuthInterceptor} from './auth-interceptor.service';
+import {AppRoutingModule} from './app-routing.module';
+import { HomeComponent } from './home/home.component';
+import { TripManagementComponent } from './trip-management/trip-management.component';
+import { PointManagementComponent } from './point-management/point-management.component';
+import {Globals} from './gobals';
 
 @NgModule({
   declarations: [
@@ -20,16 +25,21 @@ import {AuthInterceptor} from './auth-interceptor.service';
     ResortComponent,
     RoomTypeComponent,
     RoomManagementComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    TripManagementComponent,
+    PointManagementComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   exports: [FormsModule],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    Globals,
     RoomsService,
     AuthService],
   bootstrap: [AppComponent]

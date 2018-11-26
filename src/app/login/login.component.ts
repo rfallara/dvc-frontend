@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../authService.service';
 import {NgForm} from '@angular/forms';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,14 +9,16 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  private loggedIn: boolean;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
   checkLoggedIn() {
-    return this.authService.getLoggedIn();
+    this.loggedIn = this.authService.getLoggedIn();
+    return this.loggedIn;
   }
 
 
@@ -23,12 +26,12 @@ export class LoginComponent implements OnInit {
     const value = form.value;
     const username = value.username;
     const password = value.password;
-    const x = this.authService.login(username, password);
-    console.log(x);
+    this.authService.login(username, password);
   }
 
   onLogout() {
     this.authService.logout();
+    this.router.navigate(['/']);
   }
 
 }
