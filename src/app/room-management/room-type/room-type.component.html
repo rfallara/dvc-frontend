@@ -1,9 +1,13 @@
 <div class="row">
-  <div class="col-md">
+  <div class="col-md sectionBlock">
     <div class="list-group">
       <div class="btn-group" *ngFor="let roomTypeMember of roomTypeCollection">
+        <button class="btn btn-danger"
+                (click)="onDeleteRoomType(roomTypeMember.roomType.id)"
+                *ngIf="checkActiveEditRoomType(roomTypeMember.roomType)">
+          Delete
+        </button>
         <button type="button"
-                [disabled]="!activeResortSelection"
                 class="list-group-item list-group-item-action"
                 style="width: 100%"
                 (click)="onSelectRoomType(roomTypeMember.roomType)"
@@ -11,29 +15,33 @@
           {{roomTypeMember.roomType.name}}
           <span class="float-right">Sleeps: {{roomTypeMember.roomType.sleeps}}</span>
         </button>
-        <button class="btn btn-outline-danger"
-                (click)="onDeleteRoomType(roomTypeMember.roomType.id)"
-                *ngIf="allowDelete">Delete
-        </button>
       </div>
     </div>
-    <button class="btn btn-outline-info float-right" (click)="onEditRoomTypes()">Edit</button>
 
-    <div class="row">
+
+    <div class="row" style="margin-top: 15px">
       <div class="col-sm-12">
+        <form (ngSubmit)="onAddRoomType(f)" #f="ngForm" class="form" >
+          <fieldset [disabled]="!checkNewRoomTypeFormEnable()">
+            <div class="col-sm-12 input-group">
 
-        <form (ngSubmit)="onAddRoomType(f)" #f="ngForm" class="form">
-          <div class="col-sm-12 input-group">
-            <label for="newRoomTypeName">Room Type: </label>
-            <input type="text" class="form-control"
-                   name="newRoomTypeName"
-                   id="newRoomTypeName" ngModel>
-            <label for="newRoomTypeSleeps">Sleeps: </label>
-            <input type="number" class="form-control"
-                   name="newRoomTypeSleeps"
-                   id="newRoomTypeSleeps" ngModel>
-            <button type="submit" class="btn btn-success btn-sm">Add</button>
-          </div>
+              <!--<label for="newRoomTypeName">Room Type: </label>-->
+              <input type="text" class="form-control"
+                     name="newRoomTypeName"
+                     placeholder="New Room Type"
+                     id="newRoomTypeName" ngModel>
+
+              <!--<label for="newRoomTypeSleeps">Sleeps: </label>-->
+              <input type="number" class="form-control"
+                     name="newRoomTypeSleeps"
+                     placeholder="Sleeps"
+                     id="newRoomTypeSleeps" ngModel>
+            </div>
+              <button type="submit"
+                      style="margin-right: 25px; margin-top: 10px"
+                      class="btn btn-success float-right">Add Room Type
+              </button>
+          </fieldset>
         </form>
       </div>
     </div>

@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {RoomsService} from '../rooms.service';
 import {RoomType} from '../room-type.model';
-import {NgForm} from '@angular/forms';
 import {RoomTypeCollection} from './room-type-collection.model';
 
 @Component({
@@ -11,11 +10,12 @@ import {RoomTypeCollection} from './room-type-collection.model';
   styleUrls: ['./room-type.component.css']
 })
 export class RoomTypeComponent implements OnInit, OnDestroy {
-  allowDelete = false;
   roomTypeCollection: RoomTypeCollection[] = [];
   subscription: Subscription;
   activeResortSelection = false;
+  activeEditRoomType: RoomType;
   @Output() roomTypeSelected = new EventEmitter<RoomType>();
+
   constructor(private roomsService: RoomsService) {
   }
 
@@ -36,11 +36,7 @@ export class RoomTypeComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onEditRoomTypes() {
-    this.allowDelete = !this.allowDelete;
-  }
-
-  onAddRoomType(form: NgForm) {
+  onAddRoomType(form) {
     const value = form.value;
     const newRoomTypeName = value.newRoomTypeName;
     const newRoomTypeSleeps = value.newRoomTypeSleeps;
@@ -50,11 +46,13 @@ export class RoomTypeComponent implements OnInit, OnDestroy {
 
   onDeleteRoomType(roomTypeId: number) {
     this.roomsService.removeRoomType(roomTypeId);
-    this.allowDelete = false;
   }
 
   selectedResortChange(selectedRoomTypeIds: number[]) {
-    for (const x of this.roomTypeCollection) {x.activeSelection = false; }
+    this.activeEditRoomType = null;
+    for (const x of this.roomTypeCollection) {
+      x.activeSelection = false;
+    }
     for (const currentRoomTypeCollection of this.roomTypeCollection) {
       for (const currentRoomTypeId of selectedRoomTypeIds) {
         if (currentRoomTypeId === currentRoomTypeCollection.roomType.id) {
@@ -65,7 +63,32 @@ export class RoomTypeComponent implements OnInit, OnDestroy {
   }
 
   onSelectRoomType(roomTypeMember: RoomType) {
-    this.roomTypeSelected.emit(roomTypeMember);
+    if (this.activeResortSelection) {
+      this.roomTypeSelected.emit(roomTypeMember);
+    } else {
+      if (this.checkActiveEditRoomType(roomTypeMember)) {
+        this.activeEditRoomType = null;
+      } else {
+        this.activeEditRoomType = roomTypeMember;
+      }
+    }
   }
 
+  checkActiveEditRoomType(roomType: RoomType) {
+    if (this.activeEditRoomType === undefined || this.activeEditRoomType === null) {
+      return false;
+    }
+    return this.activeEditRoomType.id === roomType.id;
+  }
+
+  checkNewRoomTypeFormEnable() {
+    let formEnabled = true;
+    if (!(this.activeEditRoomType === null || this.activeEditRoomType === undefined)) {
+      formEnabled = false;
+    }
+    if (this.activeResortSelection) {
+      formEnabled = false;
+    }
+    return formEnabled;
+  }
 }

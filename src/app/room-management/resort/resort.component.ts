@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {Resort} from '../resort.model';
 import {Subscription} from 'rxjs';
 import {RoomsService} from '../rooms.service';
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-resort',
@@ -10,7 +9,6 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./resort.component.css']
 })
 export class ResortComponent implements OnInit, OnDestroy {
-  allowDelete = false;
   resorts: Resort[] = [];
   subscription: Subscription;
   selectedResort: Resort;
@@ -31,11 +29,6 @@ export class ResortComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onEditResorts() {
-    this.onChangeSelectedResort(undefined);
-    this.allowDelete = !this.allowDelete;
-  }
-
   onAddResort(form) {
     const value = form.value;
     const newResortName = value.newResortName;
@@ -45,11 +38,11 @@ export class ResortComponent implements OnInit, OnDestroy {
 
   onDeleteResort(resortId: number) {
     this.roomsService.removeResort(resortId);
-    this.allowDelete = false;
+    this.onChangeSelectedResort(undefined);
+    // this.allowDelete = false;
   }
 
   onChangeSelectedResort(newSelectedResort: Resort) {
-    if (this.allowDelete) { return; }
     if (this.selectedResort === undefined || newSelectedResort === undefined) {
       this.selectedResort = newSelectedResort;
       this.resortSelected.emit(newSelectedResort);
@@ -62,12 +55,12 @@ export class ResortComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSelectedColor(resortId: number) {
-    if (this.selectedResort === undefined) { return ''; }
-    if (resortId === this.selectedResort.id) {
-    return '#007bff';
+  checkSelectedResort(resort: Resort) {
+    if (this.selectedResort === undefined || this.selectedResort === null) {
+      return false;
     } else {
-    return '';
+      return resort.id === this.selectedResort.id;
     }
   }
+
 }
