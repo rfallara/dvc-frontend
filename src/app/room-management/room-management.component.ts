@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RoomsService} from './rooms.service';
 import {BookableRoom} from './bookable-room.model';
 import {Subscription} from 'rxjs';
@@ -10,22 +10,27 @@ import {RoomType} from './room-type.model';
   templateUrl: './room-management.component.html',
   styleUrls: ['./room-management.component.css']
 })
-export class RoomManagementComponent implements OnInit {
+export class RoomManagementComponent implements OnInit, OnDestroy {
   private bookableRooms: BookableRoom[] = [];
   selectedResort: Resort;
-  private subscription: Subscription;
+  private bookableRoomSub: Subscription;
   @ViewChild('roomTypeChild') roomTypeChild;
 
   constructor(private roomsService: RoomsService) {
   }
 
   ngOnInit() {
-    this.subscription = this.roomsService.bookableRoomsChanged.subscribe(
+    this.bookableRoomSub = this.roomsService.bookableRoomsChanged.subscribe(
       (bookableRooms: BookableRoom[]) => {
         this.bookableRooms = bookableRooms;
+        this.resortSelected(this.selectedResort);
       }
     );
     this.roomsService.getBookableRooms();
+  }
+
+  ngOnDestroy() {
+    this.bookableRoomSub.unsubscribe();
   }
 
   resortSelected(currentResort: Resort) {
@@ -47,9 +52,16 @@ export class RoomManagementComponent implements OnInit {
 
   roomTypeSelected(currentRoomType: RoomType) {
     if (this.checkForBookableRoom(this.selectedResort.id, currentRoomType.id)) {
-      alert('Bookable Room Exists');
+      // alert('Bookable Room Exists');
+      for (const currentBookableRoom of this.bookableRooms) {
+        if (currentBookableRoom.resort.id === this.selectedResort.id &&
+          currentBookableRoom.room_type.id === currentRoomType.id) {
+          this.roomsService.removeBookableRoom(currentBookableRoom.id);
+        }
+      }
     } else {
-      alert('Not a bookable room');
+      this.roomsService.addBookableRoom(this.selectedResort, currentRoomType);
+      // alert('Creating Bookable Room');
     }
   }
 

@@ -1,3 +1,32 @@
-<p>
-  trip-management works!
-</p>
+<div class="row">
+  <ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="timer">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+
+  <button class="btn btn-primary" (click)="onAddNewTrip()">Add Trip</button>
+
+  <div *ngIf="!isLoading">
+    <div class="col-sm-12">
+      <h3>Trips</h3>
+      <table class="table table-dark">
+        <tbody>
+        <tr *ngFor="let trip of trips">
+          <td>{{trip.booked_date | date: 'MM/dd/yyyy'}}</td>
+          <td>{{trip.check_in_date | date: 'MM/dd/yyyy'}}</td>
+          <td>{{trip.check_out_date | date: 'MM/dd/yyyy'}}</td>
+          <td>{{trip.owner.name}}</td>
+          <td>{{trip.bookable_room.resort.name}}</td>
+          <td>{{trip.bookable_room.room_type.name}}</td>
+          <td>{{trip.notes}}</td>
+          <td>{{trip.points_needed}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

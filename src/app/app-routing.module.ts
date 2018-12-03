@@ -5,13 +5,15 @@ import {HomeComponent} from './home/home.component';
 import {AuthGaurdService} from './auth-gaurd.service';
 import {TripManagementComponent} from './trip-management/trip-management.component';
 import {PointManagementComponent} from './point-management/point-management.component';
+import {AddTripComponent} from './trip-management/add-trip/add-trip.component';
 
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'trips', component: TripManagementComponent, canActivate: [AuthGaurdService]},
   {path: 'rooms', component: RoomManagementComponent, canActivate: [AuthGaurdService]},
-  {path: 'points', component: PointManagementComponent, canActivate: [AuthGaurdService]}
+  {path: 'points', component: PointManagementComponent, canActivate: [AuthGaurdService]},
+  {path: 'add-trip', component: AddTripComponent, canActivate: [AuthGaurdService]}
 ];
 
 @NgModule({

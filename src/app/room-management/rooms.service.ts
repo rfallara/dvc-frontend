@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {RoomType} from './room-type.model';
 import {BookableRoom} from './bookable-room.model';
 import {Globals} from '../gobals';
+import index from '@angular/cli/lib/cli';
 
 @Injectable()
 export class RoomsService {
@@ -120,4 +121,33 @@ export class RoomsService {
     );
   }
 
+  addBookableRoom(resort: Resort, roomType: RoomType) {
+    const newBookableRoom = new BookableRoom(resort, roomType);
+
+    this.http.post(this.globals.dvcApiServer + '/api/bookable_rooms/', newBookableRoom).subscribe(
+      (createdBookableRoom: BookableRoom) => {
+        this.bookableRooms.push(createdBookableRoom);
+        this.bookableRoomsChanged.next(this.bookableRooms.slice());
+      }, (error: string) => {
+        console.log(error);
+        alert('Unable to create new bookable room.');
+      }
+    );
+  }
+
+  removeBookableRoom(bookableRoomId: number) {
+    this.http.delete(this.globals.dvcApiServer + '/api/bookable_rooms/' + bookableRoomId).subscribe(
+      () => {
+        this.bookableRooms.forEach((thisBookableRoom, thisIndex) => {
+          if (thisBookableRoom.id === bookableRoomId) {
+            this.bookableRooms.splice(thisIndex, 1);
+          }
+        });
+        this.bookableRoomsChanged.next(this.bookableRooms.slice());
+      }, (error: string) => {
+        console.log(error);
+        alert('Unable to delete bookable room');
+      }
+    );
+  }
 }

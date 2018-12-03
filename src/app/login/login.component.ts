@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../authService.service';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
     this.loggedIn = this.authService.getLoggedIn();
     return this.loggedIn;
   }
-
 
   onLogin(form: NgForm) {
     const value = form.value;

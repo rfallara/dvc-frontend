@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">New Trip</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col">
+      <form class="form" #form="ngForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="booked_date">Booked: </label>
+            <input type="date" class="form-control" id="booked_date" name="booked_date" ngModel>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="points_needed">Point Needed:</label>
+            <input type="number" id="points_needed" name="points_needed" class="form-control" ngModel>
+          </div>
+
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="check_in_date">Check In: </label>
+            <input type="date" class="form-control" id="check_in_date" name="check_in_date" ngModel>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="check_out_date">Checkout:</label>
+            <input type="date" class="form-control" id="check_out_date" name="check_out_date" ngModel>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="owner">Owner: </label>
+          <select class="form-control" id="owner" name="owner"
+                  [disabled]="ownersLoading" ngModel>
+            <option [value]="owner.name" *ngFor="let owner of owners">{{owner.name}}</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="bookable_room_resort">Resort</label>
+            <select id="bookable_room_resort" class="form-control" name="bookable_room_resort"
+                    (change)="onResortChange(resort)"
+                    #resort
+                    [disabled]="bookableRoomsLoading" ngModel>
+              <option [value]="br_resort.resort.name" *ngFor="let br_resort of bookableRooms">
+                {{br_resort.resort.name}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="bookable_room_room">Room Type</label>
+            <select id="bookable_room_room" class="form-control" name="bookable_room_room"
+                    [disabled]="bookableRoomsLoading" ngModel>
+              <option [value]="br_room.room_type.name" *ngFor="let br_room of bookableRoomsFiltered">
+                {{br_room.room_type.name}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label for="notes">Notes: </label>
+          <textarea rows="4" id="notes" class="form-control" name="notes" ngModel></textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" (click)="activeModal.close(form)">Add Trip</button>
+</div>
+

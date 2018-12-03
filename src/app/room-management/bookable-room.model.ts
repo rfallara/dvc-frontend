@@ -7,7 +7,9 @@ export class BookableRoom {
   public resort: Resort;
   public room_type: RoomType;
 
-  constructor(id: number, url: string, resort: Resort, room_type: RoomType) {
+  constructor(resort: Resort, room_type: RoomType) {
+    this.resort = resort;
+    this.room_type = room_type;
   }
 
 }
