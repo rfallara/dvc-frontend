@@ -19,7 +19,6 @@ import { PointManagementComponent } from './point-management/point-management.co
 import {Globals} from './gobals';
 import {TripsService} from './trip-management/trips.service';
 import { AddTripComponent } from './trip-management/add-trip/add-trip.component';
-import {ngxLoadingAnimationTypes, NgxLoadingModule} from 'ngx-loading';
 import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
@@ -41,10 +40,6 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    NgxLoadingModule.forRoot({
-      fullScreenBackdrop: true,
-      animationType: ngxLoadingAnimationTypes.circleSwish
-    }),
     NgxSpinnerModule
   ],
   exports: [FormsModule],

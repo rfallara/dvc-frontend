@@ -51,4 +51,8 @@ export class TripManagementComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  onTripDelete(tripId: number) {
+    this.tripsService.removeTrip(tripId);
+  }
 }

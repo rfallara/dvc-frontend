@@ -23,6 +23,7 @@
           <td>{{trip.bookable_room.room_type.name}}</td>
           <td>{{trip.notes}}</td>
           <td>{{trip.points_needed}}</td>
+          <td><button type="button" class="btn btn-danger" (click)="onTripDelete(trip.id)">Delete</button></td>
         </tr>
         </tbody>
       </table>
