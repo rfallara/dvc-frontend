@@ -4,6 +4,7 @@ import {TripsService} from '../trips.service';
 import {BookableRoom} from '../../room-management/bookable-room.model';
 import {Subscription} from 'rxjs';
 import {Owner} from '../../shared/owner.model';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-add-trip',
@@ -18,6 +19,7 @@ export class AddTripComponent implements OnInit, OnDestroy {
   private ownersSubscription: Subscription;
   public ownersLoading: boolean;
   public bookableRoomsLoading: boolean;
+  public addingTripPromise;
 
   constructor(public activeModal: NgbActiveModal, private tripsService: TripsService) {}
 
@@ -49,6 +51,31 @@ export class AddTripComponent implements OnInit, OnDestroy {
     this.bookableRoomsFiltered = this.bookableRooms.filter(
       bookableRoom => bookableRoom.resort.name === selectedResort.label);
     // this.bookableRoomsFiltered.filter(br => br.resort.name === selectedResort.label);
+  }
+
+  onAddTrip(form) {
+    const values = <NgForm>form.value;
+    const newTrip = {
+      'booked_date': new Date(values['booked_date']),
+      'points_needed': values['points_needed'],
+      'notes': values['notes'],
+      'owner': {
+        'name': values['owner']
+      },
+      'check_in_date': new Date(values['check_in_date']),
+      'check_out_date': new Date(values['check_out_date']),
+      'bookable_room': {
+        'room_type': {
+          'name': values['bookable_room_room']
+        },
+        'resort': {
+          'name': values['bookable_room_resort']
+        }
+      }
+    }
+    console.log(newTrip);
+    this.addingTripPromise = this.tripsService.addTrip(newTrip);
+    // this.activeModal.close();
   }
 
 }
