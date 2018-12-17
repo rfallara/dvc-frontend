@@ -24,6 +24,11 @@ export class TripsService {
   getTrips() {
     this.http.get(this.globals.dvcApiServer + '/api/trips/').subscribe(
       (trips: Trip[]) => {
+        trips.forEach((thisTrip: Trip) => {
+          thisTrip.booked_date = new Date(thisTrip.booked_date);
+          thisTrip.check_in_date = new Date(thisTrip.check_in_date);
+          thisTrip.check_out_date = new Date(thisTrip.check_out_date);
+        });
         this.trips = trips;
         this.tripsChanged.next(this.trips.slice());
         console.log(trips);
