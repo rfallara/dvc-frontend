@@ -43,6 +43,9 @@ export class TripsService {
   addTrip(newTrip) {
     return this.http.post(this.globals.dvcApiServer + '/api/trips/', newTrip).subscribe(
       (createdTrip: Trip) => {
+        createdTrip.booked_date = new Date(createdTrip.booked_date);
+        createdTrip.check_in_date = new Date(createdTrip.check_in_date);
+        createdTrip.check_out_date = new Date(createdTrip.check_out_date);
         // console.log(createdTrip);
         this.trips.push(createdTrip);
         this.tripsChanged.next(this.trips.slice());

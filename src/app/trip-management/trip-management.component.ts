@@ -33,8 +33,8 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
     this.tripsService.getTrips();
     this.tripsSubscription = this.tripsService.tripsChanged.subscribe(
       (trips: Trip[]) => {
-        this.trips = trips;
-        this.dataSource.data = trips;
+        this.trips = trips.slice();
+        this.dataSource.data = trips.slice();
         this.spinner.hide();
         this.isLoading = false;
       },
@@ -48,6 +48,9 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'owner' : return item.owner.name;
+        case 'resort' : return item.bookable_room.resort.name;
+        case 'room_type' : return item.bookable_room.room_type.name;
+        case 'points' : return item.points_needed;
         default: return item[property];
       }
     };
@@ -81,8 +84,7 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
     const modalRef = this.modalService.open(AddTripComponent);
     modalRef.result.then(
       (modalResult) => {
-        const value = modalResult.value;
-        console.log(value);
+        console.log(modalResult);
       }
     );
   }

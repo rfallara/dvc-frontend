@@ -74,8 +74,8 @@ export class AddTripComponent implements OnInit, OnDestroy {
       }
     }
     console.log(newTrip);
-    this.addingTripPromise = this.tripsService.addTrip(newTrip);
-    // this.activeModal.close();
+    this.tripsService.addTrip(newTrip);
+    this.activeModal.close('tripAdded');
   }
 
 }
