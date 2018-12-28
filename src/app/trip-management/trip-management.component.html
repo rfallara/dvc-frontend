@@ -7,26 +7,73 @@
     <p style="font-size: 20px; color: white">Loading...</p>
   </ngx-spinner>
 
-  <button class="btn btn-primary" (click)="onAddNewTrip()">Add Trip</button>
-
-  <div *ngIf="!isLoading">
-    <div class="col-sm-12">
+  <div class="container-fluid">
+    <div class="row">
       <h3>Trips</h3>
-      <table class="table table-dark">
-        <tbody>
-        <tr *ngFor="let trip of trips">
-          <td>{{trip.booked_date | date: 'MM/dd/yyyy'}}</td>
-          <td>{{trip.check_in_date | date: 'MM/dd/yyyy'}}</td>
-          <td>{{trip.check_out_date | date: 'MM/dd/yyyy'}}</td>
-          <td>{{trip.owner.name}}</td>
-          <td>{{trip.bookable_room.resort.name}}</td>
-          <td>{{trip.bookable_room.room_type.name}}</td>
-          <td>{{trip.notes}}</td>
-          <td>{{trip.points_needed}}</td>
-          <td><button type="button" class="btn btn-danger" (click)="onTripDelete(trip.id)">Delete</button></td>
-        </tr>
-        </tbody>
+      <button class="btn btn-primary" (click)="onAddNewTrip()">Add Trip</button>
+    </div>
+    <div class="col-sm-12">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+
+      <table mat-table [dataSource]="dataSource" matSort matSortActive="check_in_date"
+             matSortDirection="desc" matSortDisableClear class="mat-elevation-z8" style="width: 100%">
+
+        <ng-container matColumnDef="booked_date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 9%"> Booked Date</th>
+          <td mat-cell *matCellDef="let trip" style="alignment: left">{{ trip.booked_date | date: 'MM/dd/yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="check_in_date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%"> Check In Date</th>
+          <td mat-cell *matCellDef="let trip" style="alignment: left">{{ trip.check_in_date | date: 'MM/dd/yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="check_out_date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%"> Check Out Date</th>
+          <td mat-cell *matCellDef="let trip"
+              style="alignment: left">{{ trip.check_out_date | date: 'MM/dd/yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="owner">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 11%"> Owner</th>
+          <td mat-cell *matCellDef="let trip">{{ trip.owner.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="resort">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%"> Resort</th>
+          <td mat-cell *matCellDef="let trip">{{ trip.bookable_room.resort.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="room_type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%"> Room Type</th>
+          <td mat-cell *matCellDef="let trip">{{ trip.bookable_room.room_type.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="notes">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Notes</th>
+          <td mat-cell *matCellDef="let trip">{{ trip.notes }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="points">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Points Needed</th>
+          <td mat-cell *matCellDef="let trip">{{ trip.points_needed }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let trip">
+            <button mat-icon-button color="warn" (click)="onTripDelete(trip.id)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
 
   </div>

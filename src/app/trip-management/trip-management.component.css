@@ -1,11 +1,11 @@
-        #welcomeRow {
-            margin-top: 120px;
-        }
+#welcomeRow {
+  margin-top: 120px;
+}
 
-        #welcomeBlock {
-            background: rgba(56,56,56,0.8);
-            color: #EDEDED;
-            border-radius: 30px;
-            padding-bottom: 10px;
-        }
+#welcomeBlock {
+  background: rgba(56, 56, 56, 0.8);
+  color: #EDEDED;
+  border-radius: 30px;
+  padding-bottom: 10px;
+}
 
