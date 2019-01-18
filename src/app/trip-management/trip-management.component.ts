@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {Trip} from './trip.model';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AddTripComponent} from './add-trip/add-trip.component';
+import {DeleteTripComponent} from './delete-trip/delete-trip.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 // import {BookableRoom} from '../room-management/bookable-room.model';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
@@ -81,15 +82,27 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   onAddNewTrip() {
-    const modalRef = this.modalService.open(AddTripComponent);
+    const modalRef = this.modalService.open(AddTripComponent, { centered: true});
     modalRef.result.then(
-      (modalResult) => {
-        console.log(modalResult);
-      }
+      () => {
+        // console.log(modalResult);
+      },
+      () => {}
     );
   }
 
-  onTripDelete(tripId: number) {
-    this.tripsService.removeTrip(tripId);
+  onTripDelete(trip: Trip) {
+    const modalRef = this.modalService.open(DeleteTripComponent, { centered: true});
+
+    modalRef.componentInstance.trip = trip; // Pass trip details to modal
+
+    modalRef.result.then(
+      (modalResult) => {
+        if (modalResult === 'delete') {
+          this.tripsService.removeTrip(trip.id);
+        }
+      },
+      () => {} // On close do nothing
+    );
   }
 }

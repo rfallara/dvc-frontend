@@ -19,6 +19,7 @@ import { PointManagementComponent } from './point-management/point-management.co
 import { Globals } from './gobals';
 import { TripsService } from './trip-management/trips.service';
 import { AddTripComponent } from './trip-management/add-trip/add-trip.component';
+import { DeleteTripComponent } from './trip-management/delete-trip/delete-trip.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
@@ -42,7 +43,12 @@ import {
     HomeComponent,
     TripManagementComponent,
     PointManagementComponent,
+    DeleteTripComponent,
     AddTripComponent
+  ],
+  entryComponents: [
+    AddTripComponent,
+    DeleteTripComponent
   ],
   imports: [
     BrowserModule,

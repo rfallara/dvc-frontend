@@ -19,7 +19,6 @@ export class AddTripComponent implements OnInit, OnDestroy {
   private ownersSubscription: Subscription;
   public ownersLoading: boolean;
   public bookableRoomsLoading: boolean;
-  public addingTripPromise;
 
   constructor(public activeModal: NgbActiveModal, private tripsService: TripsService) {}
 

@@ -49,6 +49,7 @@ export class TripsService {
         // console.log(createdTrip);
         this.trips.push(createdTrip);
         this.tripsChanged.next(this.trips.slice());
+        console.log('Trip added');
       },
       (error: string) => {
         console.log(error);
@@ -65,6 +66,10 @@ export class TripsService {
           }
         });
         this.tripsChanged.next(this.trips.slice());
+        console.log('Trip deleted');
+      },
+      (error: string) => {
+        console.log(error);
       }
     );
   }

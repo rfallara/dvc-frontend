@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Confirm Delete Trip</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><strong>Are you sure you want to delete this trip?</strong></p>
+  Owner: {{trip.owner.name}}<br>
+  Booked Date: {{trip.booked_date.toDateString()}}<br>
+  {{trip.bookable_room.resort.name}} - {{trip.bookable_room.room_type.name}}
+  <hr>
+  <p>All information associated to this trip will be permanently deleted.
+    <span class="text-danger">This operation can not be undone.</span>
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" ngbAutofocus class="btn btn-outline-secondary" (click)="activeModal.dismiss('cancel click')">Cancel</button>
+  <button type="button" class="btn btn-danger" (click)="activeModal.close('delete')">Ok</button>
+</div>
