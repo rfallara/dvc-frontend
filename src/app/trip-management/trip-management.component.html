@@ -9,12 +9,14 @@
 
   <div class="container-fluid">
     <div class="row">
-      <h3>Trips</h3>
+      <h4>Trips Management</h4>
+    </div>
+    <div class="row">
       <button class="btn btn-primary" (click)="onAddNewTrip()">Add Trip</button>
     </div>
     <div class="col-sm-12">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter Trips">
       </mat-form-field>
 
       <table mat-table [dataSource]="dataSource" matSort matSortActive="check_in_date"
@@ -22,18 +24,17 @@
 
         <ng-container matColumnDef="booked_date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 9%"> Booked Date</th>
-          <td mat-cell *matCellDef="let trip" style="alignment: left">{{ trip.booked_date | date: 'MM/dd/yyyy' }}</td>
+          <td mat-cell *matCellDef="let trip" style="text-align: center">{{ trip.booked_date | date: 'MM/dd/yyyy' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="check_in_date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%"> Check In Date</th>
-          <td mat-cell *matCellDef="let trip" style="alignment: left">{{ trip.check_in_date | date: 'MM/dd/yyyy' }}</td>
+          <td mat-cell *matCellDef="let trip" style="text-align: center">{{ trip.check_in_date | date: 'MM/dd/yyyy' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="check_out_date">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%"> Check Out Date</th>
-          <td mat-cell *matCellDef="let trip"
-              style="alignment: left">{{ trip.check_out_date | date: 'MM/dd/yyyy' }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%; text-align: center"> Check Out Date</th>
+          <td mat-cell *matCellDef="let trip" style="text-align: center">{{ trip.check_out_date | date: 'MM/dd/yyyy' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="owner">
@@ -52,17 +53,17 @@
         </ng-container>
 
         <ng-container matColumnDef="notes">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%"> Notes</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Notes</th>
           <td mat-cell *matCellDef="let trip">{{ trip.notes }}</td>
         </ng-container>
 
         <ng-container matColumnDef="points">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Points Needed</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10px"> Points Needed</th>
           <td mat-cell *matCellDef="let trip">{{ trip.points_needed }}</td>
         </ng-container>
 
         <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef></th>
+          <th mat-header-cell *matHeaderCellDef style="width: 5px"></th>
           <td mat-cell *matCellDef="let trip">
             <button mat-icon-button color="warn" (click)="onTripDelete(trip.id)">
               <mat-icon>delete_forever</mat-icon>
