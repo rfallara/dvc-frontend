@@ -9,3 +9,7 @@
   padding-bottom: 10px;
 }
 
+.mat-column-Delete {
+  flex: 0 0 10px !important;
+  white-space: unset !important;
+}
