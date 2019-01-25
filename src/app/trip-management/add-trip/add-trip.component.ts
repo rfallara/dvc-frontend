@@ -5,6 +5,7 @@ import {BookableRoom} from '../../room-management/bookable-room.model';
 import {Subscription} from 'rxjs';
 import {Owner} from '../../shared/owner.model';
 import {NgForm} from '@angular/forms';
+import {Resort} from '../../room-management/resort.model';
 
 @Component({
   selector: 'app-add-trip',
@@ -12,12 +13,15 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./add-trip.component.css']
 })
 export class AddTripComponent implements OnInit, OnDestroy {
+  public resorts: Resort[];
+  private resortsSubscription: Subscription;
   public bookableRooms: BookableRoom[];
   public bookableRoomsFiltered: BookableRoom[];
   private bookableRoomSubscription: Subscription;
   public owners: Owner[];
   private ownersSubscription: Subscription;
   public ownersLoading: boolean;
+  public resortsLoading: boolean;
   public bookableRoomsLoading: boolean;
 
   constructor(public activeModal: NgbActiveModal, private tripsService: TripsService) {}
@@ -31,6 +35,14 @@ export class AddTripComponent implements OnInit, OnDestroy {
         this.ownersLoading = false;
       }
     );
+    this.resortsLoading = true;
+    this.tripsService.getResorts();
+    this.resortsSubscription = this.tripsService.resortsChanged.subscribe(
+      (resorts: Resort[]) => {
+        this.resorts = resorts;
+        this.resortsLoading = false;
+      }
+    )
     this.bookableRoomsLoading = true;
     this.tripsService.getBookableRooms();
     this.bookableRoomSubscription = this.tripsService.bookableRoomsChanged.subscribe(
@@ -42,7 +54,9 @@ export class AddTripComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.ownersSubscription.unsubscribe();
     this.bookableRoomSubscription.unsubscribe();
+    this.resortsSubscription.unsubscribe();
   }
 
   onResortChange(resort) {

@@ -7,6 +7,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BookableRoom} from '../room-management/bookable-room.model';
 import {Owner} from '../shared/owner.model';
 import {forEach} from '@angular/router/src/utils/collection';
+import {Resort} from '../room-management/resort.model';
 
 
 @Injectable()
@@ -15,6 +16,8 @@ export class TripsService {
   tripsChanged = new Subject<Trip[]>();
   private bookableRooms: BookableRoom[];
   bookableRoomsChanged = new Subject<BookableRoom[]>();
+  private resorts: Resort[];
+  resortsChanged = new Subject<Resort[]>();
   private owners: Owner[];
   ownersChanged = new Subject<Owner[]>();
 
@@ -80,7 +83,18 @@ export class TripsService {
         this.bookableRooms = bookableRooms;
         this.bookableRoomsChanged.next(this.bookableRooms.slice());
       },
+      (error: string) => {
+        console.log(error);
+      }
+    );
+  }
 
+  getResorts() {
+    this.http.get(this.globals.dvcApiServer + '/api/resorts/').subscribe(
+      (resorts: Resort[]) => {
+        this.resorts = resorts;
+        this.resortsChanged.next(this.resorts.slice());
+      },
       (error: string) => {
         console.log(error);
       }

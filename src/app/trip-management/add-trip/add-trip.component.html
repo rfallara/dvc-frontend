@@ -42,16 +42,16 @@
             <select id="bookable_room_resort" class="form-control" name="bookable_room_resort"
                     (change)="onResortChange(resort)"
                     #resort
-                    [disabled]="bookableRoomsLoading" ngModel>
-              <option [value]="br_resort.resort.name" *ngFor="let br_resort of bookableRooms">
-                {{br_resort.resort.name}}
+                    [disabled]="resortsLoading || bookableRoomsLoading" ngModel>
+              <option [value]="resort.name" *ngFor="let resort of resorts">
+                {{resort.name}}
               </option>
             </select>
           </div>
           <div class="form-group col-md-6">
             <label for="bookable_room_room">Room Type</label>
             <select id="bookable_room_room" class="form-control" name="bookable_room_room"
-                    [disabled]="bookableRoomsLoading" ngModel>
+                    [disabled]="resortsLoading || bookableRoomsLoading" ngModel>
               <option [value]="br_room.room_type.name" *ngFor="let br_room of bookableRoomsFiltered">
                 {{br_room.room_type.name}}
               </option>
