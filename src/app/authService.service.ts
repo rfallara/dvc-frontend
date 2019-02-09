@@ -5,6 +5,11 @@ import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthService {
+  private actualPoints = {
+    'banked': '',
+    'current': '',
+    'borrow': ''
+  };
 
   constructor (private http: HttpClient, private globals: Globals, private router: Router) {
   }
@@ -18,7 +23,7 @@ export class AuthService {
       }
     );
   }
-  // TODO Check is auth token is expired
+
   getLoggedIn() {
    if (localStorage.getItem('access_token')) {
      const expire_time = localStorage.getItem('access_token_exp');
@@ -33,13 +38,27 @@ export class AuthService {
    }
   }
 
+  queryPointsCount(ownerId: number) {
+      this.http.get(this.globals.dvcApiServer + '/api/points_count/' + ownerId).subscribe(
+        (response) => {
+          this.actualPoints = response['actual_points'];
+          console.log(this.actualPoints);
+        }
+      );
+  }
+
   private setSession(authResult) {
     if (authResult.status === 'success') {
       localStorage.setItem('access_token', authResult.access_token);
       localStorage.setItem('access_token_exp', authResult.exp);
+      this.queryPointsCount(2);
     } else {
       this.logout();
     }
+  }
+
+  getActualPoints() {
+    return this.actualPoints;
   }
 
   logout() {

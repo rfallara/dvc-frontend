@@ -11,6 +11,9 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    if (this.authService.getLoggedIn()) {
+      this.authService.queryPointsCount(2);
+    }
   }
 
   checkLoggedIn() {

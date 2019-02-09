@@ -1,12 +1,13 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <a class="navbar-brand" routerLink="">DVC</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-          aria-expanded="false" aria-label="Toggle navigation">
+  <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+          data-target="#navbarNav"
+          data-toggle="collapse" type="button">
     <span class="navbar-toggler-icon"></span>
   </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav" *ngIf="checkLoggedIn()">
-
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ng-template [ngIf]="checkLoggedIn()">
+      <ul class="navbar-nav">
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="/trips">Trips</a>
         </li>
@@ -17,7 +18,13 @@
           <a class="nav-link" routerLink="/points">Points</a>
         </li>
       </ul>
-    </div>
+      <div class="">
+        Actual DVC Points: [Banked:{{authService.getActualPoints()['banked']}}
+        Current:{{authService.getActualPoints()['current']}}
+        Borrow:{{authService.getActualPoints()['borrow']}}  ]
+      </div>
+    </ng-template>
+  </div>
   <ul class="nav navbar ml-auto">
     <app-login></app-login>
   </ul>
