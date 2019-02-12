@@ -6,7 +6,6 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {AddTripComponent} from './add-trip/add-trip.component';
 import {DeleteTripComponent} from './delete-trip/delete-trip.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-// import {BookableRoom} from '../room-management/bookable-room.model';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
@@ -84,8 +83,10 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
   onAddNewTrip() {
     const modalRef = this.modalService.open(AddTripComponent, { centered: true});
     modalRef.result.then(
-      () => {
-        // console.log(modalResult);
+      (modalResult) => {
+        if (modalResult === 'tripAdded') {
+          this.spinner.show();
+        }
       },
       () => {}
     );
@@ -99,6 +100,7 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
     modalRef.result.then(
       (modalResult) => {
         if (modalResult === 'delete') {
+          this.spinner.show();
           this.tripsService.removeTrip(trip.id);
         }
       },

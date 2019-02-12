@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.getLoggedIn()) {
-      this.authService.queryPointsCount(2);
+      this.authService.queryPointsCount();
     }
   }
 

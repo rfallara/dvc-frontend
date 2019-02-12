@@ -15,6 +15,32 @@
 </ng-template>
 <ng-template [ngIf]="checkLoggedIn()">
 
-  <button class="btn btn-danger btn-sm" (click)="onLogout()">Logout</button>
+
+    <div ngbDropdown class="d-inline-block" placement="bottom-right" style="margin-right: 12px">
+      <button class="btn btn-outline-primary btn-sm" id="availPointsDropDown" ngbDropdownToggle>
+        Available Points</button>
+      <div ngbDropdownMenu>
+        <ul class="list-group">
+          <li class="list-group-item">Actual Points</li>
+          <li class="list-unstyled d-flex justify-content-between align-items-center">
+            Banked<span class="badge badge-primary badge-pill">{{availPoints.actualPointsBanked}}</span></li>
+          <li class="list-unstyled d-flex justify-content-between align-items-center">
+            Current<span class="badge badge-primary badge-pill">{{availPoints.actualPointsCurrent}}</span></li>
+          <li class="list-unstyled d-flex justify-content-between align-items-center">
+            Borrow<span class="badge badge-primary badge-pill">{{availPoints.actualPointsBorrow}}</span></li>
+        </ul>
+        <ul class="list-group">
+          <li class="list-group-item">Personal Points</li>
+          <li class="list-unstyled d-flex justify-content-between align-items-center">
+            Banked<span class="badge badge-primary badge-pill">{{availPoints.personalPointsBanked}}</span></li>
+          <li class="list-unstyled d-flex justify-content-between align-items-center">
+            Current<span class="badge badge-primary badge-pill">{{availPoints.personalPointsCurrent}}</span></li>
+          <li class="list-unstyled d-flex justify-content-between align-items-center">
+            Borrow<span class="badge badge-primary badge-pill">{{availPoints.personalPointsBorrow}}</span></li>
+        </ul>
+      </div>
+    </div>
+    <button class="btn btn-danger btn-sm" (click)="onLogout()">Logout</button>
+
 
 </ng-template>

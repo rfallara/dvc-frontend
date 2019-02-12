@@ -2,16 +2,18 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Globals} from './gobals';
 import {Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {AvailablePoints} from './shared/available-points.model';
 
 @Injectable()
 export class AuthService {
-  private actualPoints = {
-    'banked': '',
-    'current': '',
-    'borrow': ''
-  };
+  availPointsChanged = new Subject();
+  private availablePoints: AvailablePoints;
+
+  private currentUserEmail = 'john@fallara.net'; // TODO Change to use actual user from Google auth login
 
   constructor (private http: HttpClient, private globals: Globals, private router: Router) {
+    this.availablePoints = new AvailablePoints();
   }
 
   login (username: String, password: String) {
@@ -38,11 +40,16 @@ export class AuthService {
    }
   }
 
-  queryPointsCount(ownerId: number) {
-      this.http.get(this.globals.dvcApiServer + '/api/points_count/' + ownerId).subscribe(
+  queryPointsCount() {
+      this.http.get(this.globals.dvcApiServer + '/api/points_count/' + this.currentUserEmail).subscribe(
         (response) => {
-          this.actualPoints = response['actual_points'];
-          console.log(this.actualPoints);
+          this.availablePoints.actualPointsBanked = response['actual_points']['banked'];
+          this.availablePoints.actualPointsCurrent = response['actual_points']['current'];
+          this.availablePoints.actualPointsBorrow = response['actual_points']['borrow'];
+          this.availablePoints.personalPointsBanked = response['personal_points']['banked'];
+          this.availablePoints.personalPointsCurrent = response['personal_points']['current'];
+          this.availablePoints.personalPointsBorrow = response['personal_points']['borrow'];
+          this.availPointsChanged.next(this.availablePoints);
         }
       );
   }
@@ -51,15 +58,12 @@ export class AuthService {
     if (authResult.status === 'success') {
       localStorage.setItem('access_token', authResult.access_token);
       localStorage.setItem('access_token_exp', authResult.exp);
-      this.queryPointsCount(2);
+      this.queryPointsCount();
     } else {
       this.logout();
     }
   }
 
-  getActualPoints() {
-    return this.actualPoints;
-  }
 
   logout() {
     localStorage.removeItem('access_token');

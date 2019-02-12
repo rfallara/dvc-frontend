@@ -8,6 +8,7 @@ import {BookableRoom} from '../room-management/bookable-room.model';
 import {Owner} from '../shared/owner.model';
 import {forEach} from '@angular/router/src/utils/collection';
 import {Resort} from '../room-management/resort.model';
+import {AuthService} from '../authService.service';
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class TripsService {
   ownersChanged = new Subject<Owner[]>();
 
 
-  constructor(private http: HttpClient, private globals: Globals, private modalService: NgbModal) {
+  constructor(private http: HttpClient, private globals: Globals, private modalService: NgbModal, private authService: AuthService) {
   }
 
   getTrips() {
@@ -53,6 +54,8 @@ export class TripsService {
         this.trips.push(createdTrip);
         this.tripsChanged.next(this.trips.slice());
         console.log('Trip added');
+        // Update header points count
+        this.authService.queryPointsCount();
       },
       (error: string) => {
         console.log(error);
@@ -70,6 +73,8 @@ export class TripsService {
         });
         this.tripsChanged.next(this.trips.slice());
         console.log('Trip deleted');
+        // Update header points count
+        this.authService.queryPointsCount();
       },
       (error: string) => {
         console.log(error);

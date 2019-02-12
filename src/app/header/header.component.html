@@ -18,15 +18,14 @@
           <a class="nav-link" routerLink="/points">Points</a>
         </li>
       </ul>
-      <div class="">
-        Actual DVC Points: [Banked:{{authService.getActualPoints()['banked']}}
-        Current:{{authService.getActualPoints()['current']}}
-        Borrow:{{authService.getActualPoints()['borrow']}}  ]
-      </div>
     </ng-template>
   </div>
-  <ul class="nav navbar ml-auto">
+  <div class="ml-auto">
     <app-login></app-login>
-  </ul>
+  </div>
+  <!--<ul class="nav navbar ml-auto">-->
+    <!--<app-login></app-login>-->
+  <!--</ul>-->
+
 
 </nav>
