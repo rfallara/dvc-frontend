@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { TripManagementComponent } from './trip-management/trip-management.component';
 import { PointManagementComponent } from './point-management/point-management.component';
 import { Globals } from './gobals';
+import {SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, LoginOpt} from 'angularx-social-login';
 import { TripsService } from './trip-management/trips.service';
 import { AddTripComponent } from './trip-management/add-trip/add-trip.component';
 import { DeleteTripComponent } from './trip-management/delete-trip/delete-trip.component';
@@ -31,6 +32,24 @@ import {
   MatSortModule,
   MatTableModule
 } from '@angular/material';
+
+const googleLoginOptions: LoginOpt = {
+  scope: 'profile email',
+  prompt: 'select_account'
+}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
+
+
+const config = new AuthServiceConfig([{
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider(
+          '352426068501-r1o358blf1hqnhvnh5olce4b5toasadj.apps.googleusercontent.com', googleLoginOptions)
+    }
+    ]);
+
+export function provideConfig() {
+    return config;
+}
+
 
 @NgModule({
   declarations: [
@@ -55,6 +74,7 @@ import {
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    SocialLoginModule,
     AppRoutingModule,
     NgbModule,
     NgxSpinnerModule,
@@ -63,6 +83,7 @@ import {
   exports: [FormsModule],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: AuthServiceConfig, useFactory: provideConfig},
     Globals,
     RoomsService,
     TripsService,

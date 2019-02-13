@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Globals} from './gobals';
+import {AuthService as SocialAuthService} from 'angularx-social-login';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {AvailablePoints} from './shared/available-points.model';
@@ -9,18 +10,27 @@ import {AvailablePoints} from './shared/available-points.model';
 export class AuthService {
   availPointsChanged = new Subject();
   private availablePoints: AvailablePoints;
+  private currentUserOwnerName: string;
+  private currentUserEmail: string;
+  private currentUserPicture: string;
 
-  private currentUserEmail = 'john@fallara.net'; // TODO Change to use actual user from Google auth login
+  constructor (private http: HttpClient,
+               private globals: Globals,
+               private socialAuthService: SocialAuthService,
+               private router: Router) {
 
-  constructor (private http: HttpClient, private globals: Globals, private router: Router) {
     this.availablePoints = new AvailablePoints();
+    if (localStorage.getItem('access_token')) {
+      this.currentUserOwnerName = localStorage.getItem('owner_name');
+      this.currentUserEmail = localStorage.getItem('user_email');
+      this.currentUserPicture = localStorage.getItem('user_picture');
+    }
   }
 
-  login (username: String, password: String) {
+  login (googleIdToken: string) {
     return this.http.post(this.globals.dvcApiServer + '/api/token/',
-      { 'username' : username, 'password': password} ).subscribe(
+      { 'google_id_token' : googleIdToken} ).subscribe(
       (response) => {
-        // console.log(response);
         this.setSession(response);
       }
     );
@@ -38,6 +48,14 @@ export class AuthService {
    } else {
      return false;
    }
+  }
+
+  getOwnerName() {
+    return this.currentUserOwnerName;
+  }
+
+  getUserPicture() {
+    return this.currentUserPicture;
   }
 
   queryPointsCount() {
@@ -58,6 +76,12 @@ export class AuthService {
     if (authResult.status === 'success') {
       localStorage.setItem('access_token', authResult.access_token);
       localStorage.setItem('access_token_exp', authResult.exp);
+      localStorage.setItem('owner_name', authResult.owner);
+      localStorage.setItem('user_email', authResult.email);
+      localStorage.setItem('user_picture', authResult.picture);
+      this.currentUserOwnerName = authResult.owner;
+      this.currentUserEmail = authResult.email;
+      this.currentUserPicture = authResult.picture;
       this.queryPointsCount();
     } else {
       this.logout();
@@ -67,6 +91,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('access_token_exp');
+    localStorage.removeItem('owner_name');
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('user_picture');
   }
 
 }

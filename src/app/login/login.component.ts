@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../authService.service';
-import {NgForm} from '@angular/forms';
+import {AuthService as SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {AvailablePoints} from '../shared/available-points.model';
@@ -15,14 +15,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   private availPointsSub: Subscription;
   availPoints: AvailablePoints;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService,
+              private socialAuthService: SocialAuthService,
+              private router: Router) { }
 
   ngOnInit() {
     this.availPoints = new AvailablePoints();
     this.availPointsSub = this.authService.availPointsChanged.subscribe(
       (availPoints: AvailablePoints) => {
         this.availPoints = availPoints;
-        console.log(this.availPoints);
       }
     );
   }
@@ -36,16 +37,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this.loggedIn;
   }
 
-  onLogin(form: NgForm) {
-    const value = form.value;
-    const username = value.username;
-    const password = value.password;
-    this.authService.login(username, password);
-  }
-
   onLogout() {
     this.authService.logout();
     this.router.navigate(['/']);
+  }
+
+  signInWithGoogle() {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
+      (user) => {
+        console.log('Google login success.');
+        this.authService.login(user.idToken);
+      }
+    );
+  }
+
+  signOutSocial() {
+    this.socialAuthService.signOut();
+  }
+
+  getPicture() {
+    return this.authService.getUserPicture();
   }
 
 }

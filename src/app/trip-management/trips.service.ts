@@ -36,7 +36,6 @@ export class TripsService {
         });
         this.trips = trips;
         this.tripsChanged.next(this.trips.slice());
-        console.log(trips);
       },
       (error: string) => {
         console.log(error);
