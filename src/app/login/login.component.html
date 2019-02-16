@@ -1,35 +1,32 @@
-<ng-template [ngIf]="!checkLoggedIn()">
-  <button class="loginBtn loginBtn--google" (click)="signInWithGoogle()">
-  Login with Google
+<div ngbDropdown class="d-inline-block" placement="bottom-right" style="margin-right: 12px">
+  <button class="btn btn-outline-primary btn-sm" id="availPointsDropDown" ngbDropdownToggle>
+    Available Points
   </button>
-</ng-template>
-<ng-template [ngIf]="checkLoggedIn()">
-    <div ngbDropdown class="d-inline-block" placement="bottom-right" style="margin-right: 12px">
-      <button class="btn btn-outline-primary btn-sm" id="availPointsDropDown" ngbDropdownToggle>
-        Available Points</button>
-      <div ngbDropdownMenu>
-        <ul class="list-group">
-          <li class="list-group-item">Actual Points</li>
-          <li class="list-unstyled d-flex justify-content-between align-items-center">
-            Banked<span class="badge badge-primary badge-pill">{{availPoints.actualPointsBanked}}</span></li>
-          <li class="list-unstyled d-flex justify-content-between align-items-center">
-            Current<span class="badge badge-primary badge-pill">{{availPoints.actualPointsCurrent}}</span></li>
-          <li class="list-unstyled d-flex justify-content-between align-items-center">
-            Borrow<span class="badge badge-primary badge-pill">{{availPoints.actualPointsBorrow}}</span></li>
-        </ul>
-        <ul class="list-group">
-          <li class="list-group-item">{{authService.getOwnerName()}} Points</li>
-          <li class="list-unstyled d-flex justify-content-between align-items-center">
-            Banked<span class="badge badge-primary badge-pill">{{availPoints.personalPointsBanked}}</span></li>
-          <li class="list-unstyled d-flex justify-content-between align-items-center">
-            Current<span class="badge badge-primary badge-pill">{{availPoints.personalPointsCurrent}}</span></li>
-          <li class="list-unstyled d-flex justify-content-between align-items-center">
-            Borrow<span class="badge badge-primary badge-pill">{{availPoints.personalPointsBorrow}}</span></li>
-        </ul>
-      </div>
-    </div>
-    <button class="btn btn-danger btn-sm" (click)="onLogout()">Logout</button>
-  <img src="{{this.getPicture()}}" alt="IMG" style="margin-left: 6px; max-height: 40px">
+  <div ngbDropdownMenu>
+    <ul class="list-group">
+      <li class="list-group-item">Actual Points</li>
+      <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+        Banked<span class="badge badge-primary badge-pill">{{availPoints.actualPointsBanked}}</span></li>
+      <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+        Current<span class="badge badge-primary badge-pill">{{availPoints.actualPointsCurrent}}</span></li>
+      <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+        Borrow<span class="badge badge-primary badge-pill">{{availPoints.actualPointsBorrow}}</span></li>
+    </ul>
+    <ul class="list-group">
+      <li class="list-group-item">Personal Points</li>
+      <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+        Banked<span class="badge badge-primary badge-pill">{{availPoints.personalPointsBanked}}</span></li>
+      <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+        Current<span class="badge badge-primary badge-pill">{{availPoints.personalPointsCurrent}}</span></li>
+      <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+        Borrow<span class="badge badge-primary badge-pill">{{availPoints.personalPointsBorrow}}</span></li>
+    </ul>
+  </div>
+</div>
+<div ngbDropdown class="d-inline-block" placement="bottom-right" style="margin-right: 12px">
+  <img src="{{this.getPicture()}}" alt="IMG" style="margin-left: 6px; max-height: 40px" ngbDropdownToggle>
+  <div ngbDropdownMenu>
+    <button class="dropdown-item" style="color: #DD4B39" (click)="onLogout()">Logout</button>
+  </div>
+</div>
 
-
-</ng-template>

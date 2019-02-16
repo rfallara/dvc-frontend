@@ -1,31 +1,38 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <a class="navbar-brand" routerLink="">DVC</a>
-  <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-          data-target="#navbarNav"
-          data-toggle="collapse" type="button">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ng-template [ngIf]="checkLoggedIn()">
+
+  <ng-template [ngIf]="checkLoggedIn()" [ngIfElse]="loginContent">
+    <button class="navbar-toggler" style="margin-left: 12px"
+            data-target="#navbarNav"
+            (click)="isCollapsed = !isCollapsed"
+            data-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav" [ngbCollapse]="isCollapsed">
+
       <ul class="navbar-nav">
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" (click)="isCollapsed = true">
           <a class="nav-link" routerLink="/trips">Trips</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" (click)="isCollapsed = true">
           <a class="nav-link" routerLink="/rooms">Rooms</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" (click)="isCollapsed = true">
           <a class="nav-link" routerLink="/points">Points</a>
         </li>
       </ul>
-    </ng-template>
-  </div>
-  <div class="ml-auto">
-    <app-login></app-login>
-  </div>
-  <!--<ul class="nav navbar ml-auto">-->
-    <!--<app-login></app-login>-->
-  <!--</ul>-->
+      <div class="ml-auto">
+        <app-login (loggedOut)="signOutSocial($event)">
+        </app-login>
+      </div>
+    </div>
+  </ng-template>
 
-
+  <ng-template #loginContent>
+    <div class="ml-auto">
+      <button class="loginBtn loginBtn--google" (click)="signInWithGoogle()">
+        Login with Google
+      </button>
+    </div>
+  </ng-template>
 </nav>
