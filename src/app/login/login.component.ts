@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   signInWithGoogle() {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
       (user) => {
-        console.log('Google login success.');
         this.authService.login(user.idToken);
       }
     );
