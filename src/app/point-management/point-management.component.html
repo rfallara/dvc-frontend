@@ -1,3 +1,61 @@
-<p>
-  point-management works!
-</p>
+<div class="row">
+  <div class="col">
+    <form (ngSubmit)="onBankPoints(form)" #form="ngForm"
+          class="form" style="margin-top: 15px">
+      <div class="row">
+        <div class="col-sm-3">
+          <label class="text-light" for="banked_date">Banked Date: </label>
+          <input type="date" class="form-control" id="banked_date" name="banked_date"
+                 (blur)="onChangeBankDate(form)" ngModel>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 20px">
+        <div class="col-md-6">
+          <label class="text-light" for="points_to_bank_slider">Points to Bank:</label>
+          <div class="form-row" style="padding-left: 5px">
+            <span class="text-light">0</span>
+            <mat-slider id="points_to_bank_slider" name="points_to_bank_slider" thumbLabel min="0"
+                        [max]="points_to_bank_max"
+                        [(value)]="points_to_bank"
+                        [(ngModel)]="points_to_bank">
+
+            </mat-slider>
+            <span class="text-light">{{points_to_bank_max}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <button type="button" class="btn btn-success is-loading"
+                  [disabled]="!(points_to_bank > 0)"
+                  (click)="onBankPoints(form)">Bank {{points_to_bank}} Points
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+
+
+
+<ng-template #contentConfirmBank let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirm Bank Points</h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')">x</button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Are you sure you want to bank these points?</strong></p>
+    <p><span class="text-primary">{{points_to_bank}}</span> points
+      with a bank date of <span class="text-primary">{{myForm.value['banked_date']}}</span>?</p>
+    <span class="text-danger"><strong>This operation cannot be undone.</strong></span>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" ngbAutofocus (click)="modal.dismiss('Cancel')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Confirm</button>
+  </div>
+</ng-template>

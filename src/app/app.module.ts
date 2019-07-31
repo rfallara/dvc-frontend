@@ -4,6 +4,7 @@ import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { RoomsService} from './room-management/rooms.service';
+import { PointsService} from './point-management/points.service';
 import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { ResortComponent } from './room-management/resort/resort.component';
 import { RoomTypeComponent } from './room-management/room-type/room-type.component';
@@ -29,8 +30,10 @@ import {
   MatIconModule,
   MatInputModule,
   MatPaginatorModule,
+  MatSliderModule,
   MatSortModule,
-  MatTableModule
+  MatTableModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 const googleLoginOptions: LoginOpt = {
@@ -78,7 +81,8 @@ export function provideConfig() {
     AppRoutingModule,
     NgbModule,
     NgxSpinnerModule,
-    MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule
+    MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule,
+    MatInputModule, MatIconModule, MatButtonModule, MatSliderModule, MatSnackBarModule
   ],
   exports: [FormsModule],
   providers: [
@@ -86,6 +90,7 @@ export function provideConfig() {
     {provide: AuthServiceConfig, useFactory: provideConfig},
     Globals,
     RoomsService,
+    PointsService,
     TripsService,
     AuthService],
   bootstrap: [AppComponent]
