@@ -63,6 +63,7 @@ export class AuthService {
         (response) => {
           this.availablePoints.actualPointsBanked = response['actual_points']['banked'];
           this.availablePoints.actualPointsCurrent = response['actual_points']['current'];
+          this.availablePoints.actualPointsCurrentBanked = response['actual_points']['current_banked'];
           this.availablePoints.actualPointsBorrow = response['actual_points']['borrow'];
           this.availablePoints.personalPointsBanked = response['personal_points']['banked'];
           this.availablePoints.personalPointsCurrent = response['personal_points']['current'];

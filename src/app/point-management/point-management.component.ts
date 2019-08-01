@@ -3,7 +3,6 @@ import {Subscription} from 'rxjs';
 import {PointsService} from './points.service';
 import {NgForm} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -19,7 +18,7 @@ export class PointManagementComponent implements OnInit, OnDestroy {
   @ViewChild('form') myForm: NgForm;
   @ViewChild('contentConfirmBank') modalContentConfirmBank;
 
-  constructor(private pointsService: PointsService, private modalService: NgbModal, private snackBar: MatSnackBar) {
+  constructor(private pointsService: PointsService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -32,15 +31,10 @@ export class PointManagementComponent implements OnInit, OnDestroy {
     this.bankPointsSubscription = this.pointsService.bankPointsComplete.subscribe(
       (result: Object) => {
         if (result['status'] === 201) {
-          this.snackBar.open('Points banking complete', 'X',
-            {duration: 5000, verticalPosition: 'top'});
-        } else {
-          this.snackBar.open('An Error occurred during points banking', 'X',
-            {verticalPosition: 'top', panelClass: ['error-snackbar']});
+          this.points_to_bank = 0;
+          this.points_to_bank_max = 0;
+          this.myForm.reset();
         }
-        this.points_to_bank = 0;
-        this.points_to_bank_max = 0;
-        this.myForm.reset();
       }
     );
   }

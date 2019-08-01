@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Globals} from '../gobals';
 import {MatSnackBar} from '@angular/material';
+import {AuthService} from '../authService.service';
 
 @Injectable()
 export class PointsService {
   availablePointsChanged = new Subject<number>();
   bankPointsComplete = new Subject<Object>();
-  constructor(private http: HttpClient, private globals: Globals, private snackBar: MatSnackBar) {
+  constructor(private http: HttpClient, private globals: Globals, private authService: AuthService, private snackBar: MatSnackBar) {
   }
 
 
@@ -38,6 +39,9 @@ export class PointsService {
               'status' : 201
             };
            this.bankPointsComplete.next(resp);
+           this.snackBar.open('Points banking complete', 'X',
+            {duration: 5000, verticalPosition: 'top'});
+           this.authService.queryPointsCount();
         }
       },
       (error: string) => {

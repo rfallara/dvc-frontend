@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Globals} from '../gobals';
 import {Trip} from './trip.model';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BookableRoom} from '../room-management/bookable-room.model';
 import {Owner} from '../shared/owner.model';
-import {forEach} from '@angular/router/src/utils/collection';
 import {Resort} from '../room-management/resort.model';
 import {AuthService} from '../authService.service';
+import {MatSnackBar} from '@angular/material';
 
 
 @Injectable()
@@ -23,7 +23,8 @@ export class TripsService {
   ownersChanged = new Subject<Owner[]>();
 
 
-  constructor(private http: HttpClient, private globals: Globals, private modalService: NgbModal, private authService: AuthService) {
+  constructor(private http: HttpClient, private globals: Globals, private modalService: NgbModal,
+              private authService: AuthService, private snackBar: MatSnackBar) {
   }
 
   getTrips() {
@@ -53,11 +54,15 @@ export class TripsService {
         this.trips.push(createdTrip);
         this.tripsChanged.next(this.trips.slice());
         console.log('Trip added');
+        this.snackBar.open('Trip created successfully', 'X',
+            {duration: 5000, verticalPosition: 'top'});
         // Update header points count
         this.authService.queryPointsCount();
       },
       (error: string) => {
         console.log(error);
+        this.snackBar.open('An Error occurred during trip creation', 'X',
+            {verticalPosition: 'top', panelClass: ['error-snackbar']});
       }
     );
   }
