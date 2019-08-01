@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../authService.service';
 import {AuthService as SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
+import {Globals} from '../gobals';
 
 @Component({
   selector: 'app-header',
@@ -10,14 +11,22 @@ import {AuthService as SocialAuthService, GoogleLoginProvider} from 'angularx-so
 export class HeaderComponent implements OnInit {
 
   isCollapsed = true;
+  isDevelopment = false;
 
-  constructor(private authService: AuthService, private socialAuthService: SocialAuthService) {
+  constructor(private authService: AuthService, private socialAuthService: SocialAuthService, private globals: Globals) {
   }
 
   ngOnInit() {
     if (this.authService.getLoggedIn()) {
       this.authService.queryPointsCount();
     }
+
+    if (this.globals.dvcApiServer.indexOf('dvc-dev') > -1) {
+      this.isDevelopment = true;
+    } else {
+      this.isDevelopment = false;
+    }
+
   }
 
   checkLoggedIn() {

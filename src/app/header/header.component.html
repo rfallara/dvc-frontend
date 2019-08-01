@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
+
   <a class="navbar-brand" routerLink="">DVC</a>
 
   <ng-template [ngIf]="checkLoggedIn()" [ngIfElse]="loginContent">
@@ -22,6 +23,8 @@
         </li>
       </ul>
       <div class="ml-auto">
+      <span *ngIf="isDevelopment" class="text-danger text-sm-left" style="padding-right: 10px">
+        <strong>DEVELOPMENT API IN USE</strong></span>
         <app-login (loggedOut)="signOutSocial($event)">
         </app-login>
       </div>
@@ -36,3 +39,4 @@
     </div>
   </ng-template>
 </nav>
+

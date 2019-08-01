@@ -4,5 +4,6 @@ import {Injectable} from '@angular/core';
 export class Globals {
   // dvcApiServer = 'http://127.0.0.1:5000';
   // dvcApiServer = 'http://127.0.0.1:8000';
-  dvcApiServer = 'https://dvc-restful.appspot.com';
+  // dvcApiServer = 'https://dvc-restful.appspot.com';
+  dvcApiServer = 'https://dvc-dev.fallara.net';
 }
