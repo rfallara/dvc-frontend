@@ -2,9 +2,11 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+service: app
+
 handlers:
-- url: /
+- url: /app/
   static_files: dvc-frontend/index.html
   upload: dvc-frontend/index.html
-- url: /
+- url: /app/
   static_dir: dvc-frontend
