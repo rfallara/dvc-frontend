@@ -3,6 +3,8 @@ import {Subscription} from 'rxjs';
 import {PointsService} from './points.service';
 import {NgForm} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {OwnersService} from '../shared/owners.service';
+import {Owner} from '../shared/owner.model';
 
 
 @Component({
@@ -13,12 +15,16 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class PointManagementComponent implements OnInit, OnDestroy {
   pointsSubscription: Subscription;
   bankPointsSubscription: Subscription;
+  ownersSubscription: Subscription;
+  ownerDetailsSubscription: Subscription;
   public points_to_bank = 0;
   public points_to_bank_max = 0;
   @ViewChild('form') myForm: NgForm;
   @ViewChild('contentConfirmBank') modalContentConfirmBank;
+  public allOwners: Owner[];
 
-  constructor(private pointsService: PointsService, private modalService: NgbModal) {
+  constructor(private pointsService: PointsService, private ownerService: OwnersService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -37,11 +43,35 @@ export class PointManagementComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.ownerService.getOwners();
+    this.ownersSubscription = this.ownerService.ownersChanged.subscribe(
+      (allOwners: Owner[]) => {
+        this.allOwners = allOwners;
+        for (const thisOwner of this.allOwners) {
+          this.ownerService.getOwnerDetails(thisOwner.id);
+        }
+      }
+    );
+
+    this.ownerDetailsSubscription = this.ownerService.ownerDetailsChanged.subscribe(
+      (ownerDetail: Owner) => {
+        for (const thisOwner of this.allOwners) {
+          if (thisOwner.id === ownerDetail.id) {
+            thisOwner.bankedPoints = ownerDetail.bankedPoints;
+            thisOwner.currentPoints = ownerDetail.currentPoints;
+            thisOwner.borrowPoints = ownerDetail.borrowPoints;
+          }
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
     this.pointsSubscription.unsubscribe();
     this.bankPointsSubscription.unsubscribe();
+    this.ownersSubscription.unsubscribe();
+    this.ownerDetailsSubscription.unsubscribe();
   }
 
   onChangeBankDate(form) {

@@ -1,59 +1,84 @@
 <div class="row" style="margin-top: 5px">
   <div class="col">
 
-  <ngb-tabset type="pills">
-    <ngb-tab title="Points Status">
-
-    </ngb-tab>
-    <ngb-tab title="Banking">
-      <ng-template ngbTabContent>
-        <div class="row">
-          <div class="col">
-            <form (ngSubmit)="onBankPoints(form)" #form="ngForm"
-                  class="form" style="margin-top: 15px">
-              <div class="row">
-                <div class="col-sm-3">
-                  <label class="text-light" for="banked_date">Banked Date: </label>
-                  <input type="date" class="form-control" id="banked_date" name="banked_date"
-                         (blur)="onChangeBankDate(form)" ngModel>
+    <ngb-tabset type="pills">
+      <ngb-tab title="Points Status">
+        <ng-template ngbTabContent>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="rounded bg-light m-3 p-3" *ngFor="let owner of allOwners">
+                <div class="text-primary h6" style="padding-top: 5px">
+                  {{owner.name}}
+                </div>
+                <div style="padding-left: 10px">
+                  <span *ngFor="let email of owner.email">
+                    {{email.owner_email}}<br>
+                  </span>
+                </div>
+                <hr>
+                <div>
+                  Personal Points
+                  <ul class="list-group" style="padding-left: 10px">
+                    <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+                      Banked<span class="badge badge-primary badge-pill">{{owner.bankedPoints}}</span></li>
+                    <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+                      Current<span class="badge badge-primary badge-pill">{{owner.currentPoints}}</span></li>
+                    <li class="list-unstyled d-flex justify-content-between align-items-center mx-1">
+                      Borrow<span class="badge badge-primary badge-pill">{{owner.borrowPoints}}</span></li>
+                  </ul>
                 </div>
               </div>
-
-              <div class="row" style="padding-top: 20px">
-                <div class="col-md-6">
-                  <label class="text-light" for="points_to_bank_slider">Points to Bank:</label>
-                  <div class="form-row" style="padding-left: 5px">
-                    <span class="text-light">0</span>
-                    <mat-slider id="points_to_bank_slider" name="points_to_bank_slider" thumbLabel min="0"
-                                [max]="points_to_bank_max"
-                                [(value)]="points_to_bank"
-                                [(ngModel)]="points_to_bank">
-
-                    </mat-slider>
-                    <span class="text-light">{{points_to_bank_max}}</span>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Banking">
+        <ng-template ngbTabContent>
+          <div class="row">
+            <div class="col">
+              <form (ngSubmit)="onBankPoints(form)" #form="ngForm"
+                    class="form" style="margin-top: 15px">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <label class="text-light" for="banked_date">Banked Date: </label>
+                    <input type="date" class="form-control" id="banked_date" name="banked_date"
+                           (blur)="onChangeBankDate(form)" ngModel>
                   </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col-md-3">
-                  <button type="button" class="btn btn-success is-loading"
-                          [disabled]="!(points_to_bank > 0)"
-                          (click)="onBankPoints(form)">Bank {{points_to_bank}} Points
-                  </button>
+                <div class="row" style="padding-top: 20px">
+                  <div class="col-md-6">
+                    <label class="text-light" for="points_to_bank_slider">Points to Bank:</label>
+                    <div class="form-row" style="padding-left: 5px">
+                      <span class="text-light">0</span>
+                      <mat-slider id="points_to_bank_slider" name="points_to_bank_slider" thumbLabel min="0"
+                                  [max]="points_to_bank_max"
+                                  [(value)]="points_to_bank"
+                                  [(ngModel)]="points_to_bank">
+
+                      </mat-slider>
+                      <span class="text-light">{{points_to_bank_max}}</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-            </form>
+                <div class="row">
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-success is-loading"
+                            [disabled]="!(points_to_bank > 0)"
+                            (click)="onBankPoints(form)">Bank {{points_to_bank}} Points
+                    </button>
+                  </div>
+                </div>
 
+              </form>
+
+            </div>
           </div>
-        </div>
-      </ng-template>
+        </ng-template>
+      </ngb-tab>
 
-
-    </ngb-tab>
-
-  </ngb-tabset>
+    </ngb-tabset>
   </div>
 </div>
 

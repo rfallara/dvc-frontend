@@ -35,6 +35,7 @@ import {
   MatTableModule,
   MatSnackBarModule
 } from '@angular/material';
+import {OwnersService} from './shared/owners.service';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -91,6 +92,7 @@ export function provideConfig() {
     Globals,
     RoomsService,
     PointsService,
+    OwnersService,
     TripsService,
     AuthService],
   bootstrap: [AppComponent]
