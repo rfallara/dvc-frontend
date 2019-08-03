@@ -6,9 +6,9 @@
         <ng-template ngbTabContent>
           <div class="row">
             <div class="col-sm-4">
-              <div class="rounded bg-light m-3 p-3" *ngFor="let owner of allOwners">
-                <div class="text-primary h6" style="padding-top: 5px">
-                  {{owner.name}}
+              <div class="sectionBlock pl-3 pr-3 pb-2 m-3" *ngFor="let owner of allOwners">
+                <div class="text-primary h5" style="padding-top: 5px">
+                  <strong>{{owner.name}}</strong>
                 </div>
                 <div style="padding-left: 10px">
                   <span *ngFor="let email of owner.email">
