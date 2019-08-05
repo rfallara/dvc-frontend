@@ -11,3 +11,9 @@ mat-slider {
   /*padding-top: 15px;*/
   /*margin-top: 20px;*/
 }
+
+.tab-pane {
+  height: calc(100vh - 101px);
+  overflow-y: scroll;
+  width: 100%;
+}
