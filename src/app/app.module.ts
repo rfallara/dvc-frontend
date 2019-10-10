@@ -36,6 +36,8 @@ import {
   MatSnackBarModule
 } from '@angular/material';
 import {OwnersService} from './shared/owners.service';
+import { EventLoggingComponent } from './event-logging/event-logging.component';
+import {EventsService} from './event-logging/events.service';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -67,7 +69,8 @@ export function provideConfig() {
     TripManagementComponent,
     PointManagementComponent,
     DeleteTripComponent,
-    AddTripComponent
+    AddTripComponent,
+    EventLoggingComponent
   ],
   entryComponents: [
     AddTripComponent,
@@ -94,6 +97,7 @@ export function provideConfig() {
     PointsService,
     OwnersService,
     TripsService,
+    EventsService,
     AuthService],
   bootstrap: [AppComponent]
 })
