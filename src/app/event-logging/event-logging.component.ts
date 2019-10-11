@@ -25,7 +25,7 @@ export class EventLoggingComponent implements OnInit, OnDestroy {
     this.eventPager = new EventsPager();
     this.currentPage = 1;
     this.collectionSize = 0;
-    this.perPage = 25;
+    this.perPage = 10;
     this.eventService.getEvents(this.currentPage, this.perPage);
     this.eventsSubscription = this.eventService.eventLogChanged.subscribe(
       (eventPager: EventsPager) => {
@@ -40,7 +40,12 @@ export class EventLoggingComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(newPage: number) {
-    this.eventService.getEvents(newPage, this.perPage);
     this.currentPage = newPage;
+    this.eventService.getEvents(this.currentPage, this.perPage);
+  }
+
+  onPerPageChange(newPerPage) {
+    this.perPage = +newPerPage;
+    this.eventService.getEvents(this.currentPage, this.perPage);
   }
 }
