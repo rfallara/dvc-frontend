@@ -13,9 +13,9 @@ export class EventLoggingComponent implements OnInit, OnDestroy {
 
   private eventsSubscription: Subscription;
   public eventPager: EventsPager;
-  private currentPage;
-  private perPage;
-  private collectionSize;
+  currentPage;
+  perPage;
+  collectionSize;
 
   constructor(private eventService: EventsService, private route: ActivatedRoute) {
 

@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
       this.authService.queryPointsCount();
     }
 
-    if (this.globals.dvcApiServer.indexOf('dvc-dev') > -1) {
+    if (this.globals.dvcApiServer.indexOf('dvc-dev') > -1 || this.globals.dvcApiServer.indexOf('127.0.0.1') > -1 ) {
       this.isDevelopment = true;
     } else {
       this.isDevelopment = false;
