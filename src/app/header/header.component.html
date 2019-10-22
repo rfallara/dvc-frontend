@@ -21,6 +21,9 @@
         <li class="nav-item" routerLinkActive="active" (click)="isCollapsed = true">
           <a class="nav-link" routerLink="/points">Points</a>
         </li>
+        <li *ngIf="accessLevel(7)" class="nav-item" routerLinkActive="active" (click)="isCollapsed = true">
+          <a class="nav-link" routerLink="/events">Event Log</a>
+        </li>
       </ul>
       <div class="ml-auto">
       <span *ngIf="isDevelopment" class="text-danger text-sm-left" style="padding-right: 10px">

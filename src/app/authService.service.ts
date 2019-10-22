@@ -13,6 +13,7 @@ export class AuthService {
   private currentUserOwnerName: string;
   private currentUserEmail: string;
   private currentUserPicture: string;
+  private currentUserAccessLevel: number;
 
   constructor (private http: HttpClient,
                private globals: Globals,
@@ -58,6 +59,10 @@ export class AuthService {
     return this.currentUserPicture;
   }
 
+  getUserAccessLevel() {
+    return this.currentUserAccessLevel;
+  }
+
   queryPointsCount() {
       this.http.get(this.globals.dvcApiServer + '/api/points_count/' + this.currentUserEmail).subscribe(
         (response) => {
@@ -80,9 +85,11 @@ export class AuthService {
       localStorage.setItem('owner_name', authResult.owner);
       localStorage.setItem('user_email', authResult.email);
       localStorage.setItem('user_picture', authResult.picture);
+      localStorage.setItem('access_level', authResult.access_level);
       this.currentUserOwnerName = authResult.owner;
       this.currentUserEmail = authResult.email;
       this.currentUserPicture = authResult.picture;
+      this.currentUserAccessLevel = authResult.access_level;
       this.queryPointsCount();
     } else {
       this.logout();
@@ -96,6 +103,7 @@ export class AuthService {
     localStorage.removeItem('owner_name');
     localStorage.removeItem('user_email');
     localStorage.removeItem('user_picture');
+    localStorage.removeItem('access_level');
   }
 
 }

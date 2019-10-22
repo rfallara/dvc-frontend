@@ -33,6 +33,14 @@ export class HeaderComponent implements OnInit {
     return this.authService.getLoggedIn();
   }
 
+  accessLevel(minAccessLevel: Number) {
+    if (+localStorage.getItem('access_level') >= minAccessLevel) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   signInWithGoogle() {
     console.log('Calling Google Sign In');
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(

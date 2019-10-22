@@ -15,7 +15,7 @@ const appRoutes: Routes = [
   {path: 'rooms', component: RoomManagementComponent, canActivate: [AuthGaurdService]},
   {path: 'points', component: PointManagementComponent, canActivate: [AuthGaurdService]},
   {path: 'add-trip', component: AddTripComponent, canActivate: [AuthGaurdService]},
-  {path: 'events', component: EventLoggingComponent, canActivate: [AuthGaurdService]}
+  {path: 'events', component: EventLoggingComponent, canActivate: [AuthGaurdService], data: { access_level: 7 } }
 ];
 
 @NgModule({
