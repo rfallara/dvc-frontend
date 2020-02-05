@@ -15,8 +15,8 @@
                    class="form-control"
                    id="booked_date"
                    name="booked_date"
-                   formControlName="booked_date"
-            >
+                   [ngClass]="{'alert-danger': addTripForm.get('booked_date').invalid && addTripForm.get('booked_date').touched}"
+                   formControlName="booked_date">
           </div>
           <div class="form-group col-md-6">
             <label for="points_needed">Point Needed:</label>
@@ -24,8 +24,14 @@
                    id="points_needed"
                    name="points_needed"
                    class="form-control"
+                   [ngClass]="{'alert-danger': addTripForm.get('points_needed').invalid && addTripForm.get('points_needed').touched}"
                    formControlName="points_needed">
-            <span></span>
+            <small
+              *ngIf="addTripForm.get('points_needed').hasError('min') && addTripForm.get('points_needed').touched"
+              class="text-danger"
+            >
+              Minimum number of points is 1
+            </small>
           </div>
 
         </div>
@@ -36,15 +42,27 @@
                    class="form-control"
                    id="check_in_date"
                    name="check_in_date"
+                   (change) = "onCheckInDateChange(addTripForm.get('check_in_date').value)"
+                   [ngClass]="{'alert-danger': addTripForm.get('check_in_date').invalid && addTripForm.get('check_in_date').touched}"
                    formControlName="check_in_date">
           </div>
           <div class="form-group col-md-6">
             <label for="check_out_date">Checkout:</label>
             <input type="date"
+                   [min]="checkOutDateMin"
                    class="form-control"
                    id="check_out_date"
                    name="check_out_date"
+                   [ngClass]="{'alert-danger':
+                              (addTripForm.get('check_out_date').invalid && addTripForm.get('check_out_date').touched) ||
+                              (addTripForm.hasError('invalidCheckOutDate'))
+                              }"
                    formControlName="check_out_date">
+            <small *ngIf="addTripForm.hasError('invalidCheckOutDate') &&
+                          addTripForm.get('check_out_date').touched"
+              class="text-danger">
+              Check Out must be after Check In
+            </small>
           </div>
         </div>
         <div class="form-group">
@@ -97,6 +115,8 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-success is-loading"
           (click)="onAddTrip()"
-  >Add Trip</button>
+          [disabled]="!this.addTripForm.valid"
+  >Add Trip
+  </button>
 </div>
 

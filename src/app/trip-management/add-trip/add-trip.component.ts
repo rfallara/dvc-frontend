@@ -4,7 +4,7 @@ import {TripsService} from '../trips.service';
 import {BookableRoom} from '../../room-management/bookable-room.model';
 import {Subscription} from 'rxjs';
 import {Owner} from '../../shared/owner.model';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Resort} from '../../room-management/resort.model';
 
 @Component({
@@ -14,7 +14,6 @@ import {Resort} from '../../room-management/resort.model';
 })
 export class AddTripComponent implements OnInit, OnDestroy {
   addTripForm: FormGroup;
-  bookableRoomRoom: FormControl;
 
   public resorts: Resort[];
   private resortsSubscription: Subscription;
@@ -26,24 +25,26 @@ export class AddTripComponent implements OnInit, OnDestroy {
   public ownersLoading: boolean;
   public resortsLoading: boolean;
   public bookableRoomsLoading: boolean;
+  public checkOutDateMin: string
 
-  constructor(public activeModal: NgbActiveModal, private tripsService: TripsService) {}
+  constructor(public activeModal: NgbActiveModal, private tripsService: TripsService) {
+  }
 
   ngOnInit() {
 
-    this.bookableRoomRoom = new FormControl(null);
-
     this.addTripForm = new FormGroup({
-      'booked_date': new FormControl(null),
-      'points_needed': new FormControl(null),
-      'check_in_date': new FormControl(null),
-      'check_out_date': new FormControl(null),
-      'owner': new FormControl({value: null, disabled: this.ownersLoading}),
-      'bookable_room_resort': new FormControl({value: null, disabled: this.resortsLoading || this.bookableRoomsLoading}),
-      'bookable_room_room': new FormControl({value: null, disabled: this.resortsLoading || this.bookableRoomsLoading}),
-      'notes': new FormControl(null)
+      'booked_date': new FormControl(null, Validators.required),
+      'points_needed': new FormControl(null, [Validators.required, Validators.min(1)]),
+      'check_in_date': new FormControl(null, Validators.required),
+      'check_out_date': new FormControl(null, Validators.required),
+      'owner': new FormControl({value: null, disabled: this.ownersLoading}, Validators.required),
+      'bookable_room_resort': new FormControl({value: null, disabled: this.resortsLoading || this.bookableRoomsLoading},
+        Validators.required),
+      'bookable_room_room': new FormControl({value: null, disabled: this.resortsLoading || this.bookableRoomsLoading},
+        Validators.required),
+      'notes': new FormControl(null, Validators.required)
     });
-
+    this.addTripForm.setValidators(this.validateCheckOutDate);
 
 
     this.ownersLoading = true;
@@ -84,28 +85,45 @@ export class AddTripComponent implements OnInit, OnDestroy {
   }
 
   onAddTrip() {
-    const newTrip = {
-      'booked_date': new Date(this.addTripForm.get('booked_date').value),
-      'points_needed': this.addTripForm.get('points_needed').value,
-      'notes': this.addTripForm.get('notes').value,
-      'owner': {
-        'name': this.addTripForm.get('owner').value
-      },
-      'check_in_date': new Date(this.addTripForm.get('check_in_date').value),
-      'check_out_date': new Date(this.addTripForm.get('check_out_date').value),
-      'bookable_room': {
-        'room_type': {
-          'name': this.addTripForm.get('bookable_room_room').value
+    if (this.addTripForm.valid) {
+      const newTrip = {
+        'booked_date': new Date(this.addTripForm.get('booked_date').value),
+        'points_needed': this.addTripForm.get('points_needed').value,
+        'notes': this.addTripForm.get('notes').value,
+        'owner': {
+          'name': this.addTripForm.get('owner').value
         },
-        'resort': {
-          'name': this.addTripForm.get('bookable_room_resort').value
+        'check_in_date': new Date(this.addTripForm.get('check_in_date').value),
+        'check_out_date': new Date(this.addTripForm.get('check_out_date').value),
+        'bookable_room': {
+          'room_type': {
+            'name': this.addTripForm.get('bookable_room_room').value
+          },
+          'resort': {
+            'name': this.addTripForm.get('bookable_room_resort').value
+          }
         }
+      };
+
+      console.log(newTrip);
+      this.tripsService.addTrip(newTrip);
+      this.activeModal.close('tripAdded');
+    }
+  }
+
+  onCheckInDateChange(checkInDateString: string) {
+    const checkInDate = new Date(checkInDateString);
+    checkInDate.setDate(checkInDate.getDate() + 1);
+    this.checkOutDateMin = checkInDate.toISOString().substr(0, 10);
+  }
+
+  validateCheckOutDate(group: FormGroup): { [s: string]: boolean } {
+    if (group && group.get('check_out_date').value && group.get('check_in_date').value) {
+      if (group.get('check_out_date').value <= group.get('check_in_date').value) {
+        return {'invalidCheckOutDate': true};
       }
     }
-    console.log(newTrip);
-    this.tripsService.addTrip(newTrip);
-    this.activeModal.close('tripAdded');
-    console.log(this.addTripForm);
+    return null;
   }
 
 }
