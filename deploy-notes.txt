@@ -8,4 +8,4 @@ run `ng bulid --prod` to create production bundle in /dist folder
 switch to /dist
 
 run `gcloud app deploy --project <project-name>` to push up to gcloud
-  project is either dvc or dvc-dev
+  project is either dvc-restful or dvc-dev
