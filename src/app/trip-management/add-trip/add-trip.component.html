@@ -71,6 +71,7 @@
                   id="owner"
                   name="owner"
                   formControlName="owner">
+            <option value="" selected></option>
             <option [value]="owner.name" *ngFor="let owner of owners">{{owner.name}}</option>
           </select>
         </div>
@@ -82,6 +83,7 @@
                     name="bookable_room_resort"
                     (change)="onResortChange(this.addTripForm.get('bookable_room_resort'))"
                     formControlName="bookable_room_resort">
+              <option value="" selected></option>
               <option [value]="resort.name" *ngFor="let resort of resorts">
                 {{resort.name}}
               </option>
@@ -93,6 +95,7 @@
                     class="form-control"
                     name="bookable_room_room"
                     formControlName="bookable_room_room">
+              <option value="" selected></option>
               <option [value]="br_room.room_type.name" *ngFor="let br_room of bookableRoomsFiltered">
                 {{br_room.room_type.name}}
               </option>
