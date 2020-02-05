@@ -11,7 +11,7 @@ import { RoomTypeComponent } from './room-management/room-type/room-type.compone
 import { RoomManagementComponent } from './room-management/room-management.component';
 import { AuthService } from './authService.service';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AuthInterceptor } from './auth-interceptor.service';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -80,6 +80,7 @@ export function provideConfig() {
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     SocialLoginModule,
     AppRoutingModule,

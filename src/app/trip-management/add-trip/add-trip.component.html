@@ -7,42 +7,81 @@
 <div class="modal-body">
   <div class="row">
     <div class="col">
-      <form class="form" #form="ngForm">
+      <form class="form" [formGroup]="addTripForm">
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="booked_date">Booked: </label>
-            <input type="date" class="form-control" id="booked_date" name="booked_date" ngModel>
+            <input type="date"
+                   class="form-control"
+                   id="booked_date"
+                   name="booked_date"
+                   [ngClass]="{'alert-danger': addTripForm.get('booked_date').invalid && addTripForm.get('booked_date').touched}"
+                   formControlName="booked_date">
           </div>
           <div class="form-group col-md-6">
             <label for="points_needed">Point Needed:</label>
-            <input type="number" id="points_needed" name="points_needed" class="form-control" ngModel>
+            <input type="number"
+                   id="points_needed"
+                   name="points_needed"
+                   class="form-control"
+                   [ngClass]="{'alert-danger': addTripForm.get('points_needed').invalid && addTripForm.get('points_needed').touched}"
+                   formControlName="points_needed">
+            <small
+              *ngIf="addTripForm.get('points_needed').hasError('min') && addTripForm.get('points_needed').touched"
+              class="text-danger"
+            >
+              Minimum number of points is 1
+            </small>
           </div>
 
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="check_in_date">Check In: </label>
-            <input type="date" class="form-control" id="check_in_date" name="check_in_date" ngModel>
+            <input type="date"
+                   class="form-control"
+                   id="check_in_date"
+                   name="check_in_date"
+                   (change) = "onCheckInDateChange(addTripForm.get('check_in_date').value)"
+                   [ngClass]="{'alert-danger': addTripForm.get('check_in_date').invalid && addTripForm.get('check_in_date').touched}"
+                   formControlName="check_in_date">
           </div>
           <div class="form-group col-md-6">
             <label for="check_out_date">Checkout:</label>
-            <input type="date" class="form-control" id="check_out_date" name="check_out_date" ngModel>
+            <input type="date"
+                   [min]="checkOutDateMin"
+                   class="form-control"
+                   id="check_out_date"
+                   name="check_out_date"
+                   [ngClass]="{'alert-danger':
+                              (addTripForm.get('check_out_date').invalid && addTripForm.get('check_out_date').touched) ||
+                              (addTripForm.hasError('invalidCheckOutDate'))
+                              }"
+                   formControlName="check_out_date">
+            <small *ngIf="addTripForm.hasError('invalidCheckOutDate') &&
+                          addTripForm.get('check_out_date').touched"
+              class="text-danger">
+              Check Out must be after Check In
+            </small>
           </div>
         </div>
         <div class="form-group">
           <label for="owner">Owner: </label>
-          <select class="form-control" id="owner" name="owner"
-                  [disabled]="ownersLoading" ngModel>
+          <select class="form-control"
+                  id="owner"
+                  name="owner"
+                  formControlName="owner">
             <option [value]="owner.name" *ngFor="let owner of owners">{{owner.name}}</option>
           </select>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="bookable_room_resort">Resort</label>
-            <select id="bookable_room_resort" class="form-control" name="bookable_room_resort"
-                    (change)="onResortChange(resort)"
-                    #resort
-                    [disabled]="resortsLoading || bookableRoomsLoading" ngModel>
+            <select id="bookable_room_resort"
+                    class="form-control"
+                    name="bookable_room_resort"
+                    (change)="onResortChange(this.addTripForm.get('bookable_room_resort'))"
+                    formControlName="bookable_room_resort">
               <option [value]="resort.name" *ngFor="let resort of resorts">
                 {{resort.name}}
               </option>
@@ -50,8 +89,10 @@
           </div>
           <div class="form-group col-md-6">
             <label for="bookable_room_room">Room Type</label>
-            <select id="bookable_room_room" class="form-control" name="bookable_room_room"
-                    [disabled]="resortsLoading || bookableRoomsLoading" ngModel>
+            <select id="bookable_room_room"
+                    class="form-control"
+                    name="bookable_room_room"
+                    formControlName="bookable_room_room">
               <option [value]="br_room.room_type.name" *ngFor="let br_room of bookableRoomsFiltered">
                 {{br_room.room_type.name}}
               </option>
@@ -61,13 +102,21 @@
         </div>
         <div class="form-group">
           <label for="notes">Notes: </label>
-          <textarea rows="4" id="notes" class="form-control" name="notes" ngModel></textarea>
+          <textarea rows="4"
+                    id="notes"
+                    class="form-control"
+                    name="notes" formControlName="notes">
+          </textarea>
         </div>
       </form>
     </div>
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success is-loading" (click)="onAddTrip(form)">Add Trip</button>
+  <button type="button" class="btn btn-success is-loading"
+          (click)="onAddTrip()"
+          [disabled]="!this.addTripForm.valid"
+  >Add Trip
+  </button>
 </div>
 
