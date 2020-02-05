@@ -1,0 +1,11 @@
+When deploying to G Cloud
+=========================
+
+make sure src/app/golbals.ts is set to use the correct backend API
+
+run `ng bulid --prod` to create production bundle in /dist folder
+
+switch to /dist
+
+run `gcloud app deploy --project <project-name>` to push up to gcloud
+  project is either dvc or dvc-dev
