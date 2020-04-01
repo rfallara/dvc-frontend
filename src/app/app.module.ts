@@ -38,6 +38,7 @@ import {
 import {OwnersService} from './shared/owners.service';
 import { EventLoggingComponent } from './event-logging/event-logging.component';
 import {EventsService} from './event-logging/events.service';
+import { EditNotesComponent } from './trip-management/edit-notes/edit-notes.component';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -70,7 +71,8 @@ export function provideConfig() {
     PointManagementComponent,
     DeleteTripComponent,
     AddTripComponent,
-    EventLoggingComponent
+    EventLoggingComponent,
+    EditNotesComponent
   ],
   entryComponents: [
     AddTripComponent,

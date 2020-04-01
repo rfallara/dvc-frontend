@@ -8,6 +8,7 @@ import {DeleteTripComponent} from './delete-trip/delete-trip.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
+
 @Component({
   selector: 'app-trip-management',
   templateUrl: './trip-management.component.html',
@@ -18,7 +19,7 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
   public trips: Trip[];
   displayedColumns: string[] = ['booked_date', 'check_in_date', 'check_out_date',
     'owner', 'resort', 'room_type', 'notes', 'points', 'delete'];
-  dataSource =  new MatTableDataSource<Trip>();
+  dataSource = new MatTableDataSource<Trip>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sorter: MatSort;
 
@@ -26,7 +27,8 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
 
   constructor(private tripsService: TripsService,
               private spinner: NgxSpinnerService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal) {
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -47,11 +49,16 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
 
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
-        case 'owner' : return item.owner.name;
-        case 'resort' : return item.bookable_room.resort.name;
-        case 'room_type' : return item.bookable_room.room_type.name;
-        case 'points' : return item.points_needed;
-        default: return item[property];
+        case 'owner' :
+          return item.owner.name;
+        case 'resort' :
+          return item.bookable_room.resort.name;
+        case 'room_type' :
+          return item.bookable_room.room_type.name;
+        case 'points' :
+          return item.points_needed;
+        default:
+          return item[property];
       }
     };
 
@@ -81,19 +88,20 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   onAddNewTrip() {
-    const modalRef = this.modalService.open(AddTripComponent, { centered: true});
+    const modalRef = this.modalService.open(AddTripComponent, {centered: true});
     modalRef.result.then(
       (modalResult) => {
         if (modalResult === 'tripAdded') {
           this.spinner.show();
         }
       },
-      () => {}
+      () => {
+      }
     );
   }
 
   onTripDelete(trip: Trip) {
-    const modalRef = this.modalService.open(DeleteTripComponent, { centered: true});
+    const modalRef = this.modalService.open(DeleteTripComponent, {centered: true});
 
     modalRef.componentInstance.trip = trip; // Pass trip details to modal
 
@@ -104,7 +112,24 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
           this.tripsService.removeTrip(trip.id);
         }
       },
-      () => {} // On close do nothing
+      () => {
+      } // On close do nothing
     );
   }
+
+  onUpdateNotes(newNotes, trip: Trip) {
+    if (newNotes['newNotes'] === trip.notes) {
+      return;
+    }
+    trip.notes = newNotes['newNotes'];
+    this.tripsService.updateTrip(trip).subscribe(
+      () => {
+      },
+      (error) => {
+        trip.notes = newNotes['originalNotes'];
+        console.log(error);
+      }
+    );
+  }
+
 }

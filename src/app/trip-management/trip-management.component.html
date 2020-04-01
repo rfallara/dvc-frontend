@@ -25,17 +25,21 @@
 
         <ng-container matColumnDef="booked_date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 9%"> Booked Date</th>
-          <td mat-cell *matCellDef="let trip" style="text-align: center">{{ trip.booked_date | date: 'MM/dd/yyyy' }}</td>
+          <td mat-cell *matCellDef="let trip"
+              style="text-align: center">{{ trip.booked_date | date: 'MM/dd/yyyy' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="check_in_date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%"> Check In Date</th>
-          <td mat-cell *matCellDef="let trip" style="text-align: center">{{ trip.check_in_date | date: 'MM/dd/yyyy' }}</td>
+          <td mat-cell *matCellDef="let trip"
+              style="text-align: center">{{ trip.check_in_date | date: 'MM/dd/yyyy' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="check_out_date">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%; text-align: center"> Check Out Date</th>
-          <td mat-cell *matCellDef="let trip" style="text-align: center">{{ trip.check_out_date | date: 'MM/dd/yyyy' }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 8%; text-align: center"> Check Out Date
+          </th>
+          <td mat-cell *matCellDef="let trip"
+              style="text-align: center">{{ trip.check_out_date | date: 'MM/dd/yyyy' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="owner">
@@ -55,12 +59,15 @@
 
         <ng-container matColumnDef="notes">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Notes</th>
-          <td mat-cell *matCellDef="let trip">{{ trip.notes }}</td>
+          <td mat-cell *matCellDef="let trip">
+            <app-edit-notes [tripNotes]="trip.notes" (editComplete)="onUpdateNotes($event, trip)" ></app-edit-notes>
+<!--            <app-inline-edit [(ngModel)]="trip" ></app-inline-edit>-->
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="points">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10px"> Points Needed</th>
-          <td mat-cell *matCellDef="let trip">{{ trip.points_needed }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10px">Points Needed</th>
+          <td mat-cell *matCellDef="let trip"><span class="float-right">{{ trip.points_needed }}</span></td>
         </ng-container>
 
         <ng-container matColumnDef="delete">

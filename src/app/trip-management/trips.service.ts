@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Globals} from '../gobals';
 import {Trip} from './trip.model';
 import {Subject} from 'rxjs';
@@ -55,14 +55,14 @@ export class TripsService {
         this.tripsChanged.next(this.trips.slice());
         console.log('Trip added');
         this.snackBar.open('Trip created successfully', 'X',
-            {duration: 5000, verticalPosition: 'top'});
+          {duration: 5000, verticalPosition: 'bottom'});
         // Update header points count
         this.authService.queryPointsCount();
       },
       (error: string) => {
         console.log(error);
         this.snackBar.open('An Error occurred during trip creation', 'X',
-            {verticalPosition: 'top', panelClass: ['error-snackbar']});
+          {verticalPosition: 'bottom', panelClass: ['error-snackbar']});
       }
     );
   }
@@ -84,6 +84,22 @@ export class TripsService {
         console.log(error);
       }
     );
+  }
+
+  updateTrip(trip: Trip) {
+    const tripUpdateStatus = new Subject<Trip>();
+    this.http.put(this.globals.dvcApiServer + '/api/trips/' + trip.id, trip).subscribe(
+      (updatedTrip: Trip) => {
+        // return updatedTrip;
+        tripUpdateStatus.next(updatedTrip);
+      },
+      (e: HttpErrorResponse) => {
+        this.snackBar.open('Error Updating Trip Notes', 'X',
+      {verticalPosition: 'bottom'});
+        tripUpdateStatus.error(e);
+      }
+    );
+    return tripUpdateStatus;
   }
 
   getBookableRooms() {

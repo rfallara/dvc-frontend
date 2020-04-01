@@ -1,0 +1,19 @@
+<div>
+  <div *ngIf="editing">
+    <div class="input-group mb-3" (blur)="onBlur()">
+<!--      <input type="text" class="form-control" name="notes" [(ngModel)]="tripNotes" placeholder="Enter Trip Notes"/>-->
+      <input type="text" class="form-control" name="notes" (keydown.enter)="onEditComplete()"
+             [(ngModel)]="tripNotes" placeholder="Enter Trip Notes"/>
+      <div class="input-group-append">
+        <button class="btn btn-outline-success" type="button" (click)="onEditComplete()">Save</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="!editing">
+    <button mat-icon-button class="float-right" (click)="beginEdit(tripNotes)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    {{ tripNotes }}
+  </div>
