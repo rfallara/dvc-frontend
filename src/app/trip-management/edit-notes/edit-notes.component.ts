@@ -23,7 +23,11 @@ export class EditNotesComponent implements OnInit {
       'newNotes' : this.tripNotes,
       'originalNotes': this.preValue
     });
+  }
 
+  onEditCancel() {
+    this.editing = false;
+    this.tripNotes = this.preValue;
   }
 
   beginEdit(value) {
