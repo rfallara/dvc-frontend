@@ -6,7 +6,9 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {AddTripComponent} from './add-trip/add-trip.component';
 import {DeleteTripComponent} from './delete-trip/delete-trip.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -20,8 +22,8 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
   displayedColumns: string[] = ['booked_date', 'check_in_date', 'check_out_date',
     'owner', 'resort', 'room_type', 'notes', 'points', 'delete'];
   dataSource = new MatTableDataSource<Trip>();
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sorter: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sorter: MatSort;
 
   isLoading = true;
 

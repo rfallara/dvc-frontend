@@ -8,7 +8,7 @@ import {BookableRoom} from '../room-management/bookable-room.model';
 import {Owner} from '../shared/owner.model';
 import {Resort} from '../room-management/resort.model';
 import {AuthService} from '../authService.service';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Injectable()

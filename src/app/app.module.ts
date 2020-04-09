@@ -24,17 +24,15 @@ import { AddTripComponent } from './trip-management/add-trip/add-trip.component'
 import { DeleteTripComponent } from './trip-management/delete-trip/delete-trip.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-  MatButtonModule,
-  MatFormFieldModule,
-  MatIconModule,
-  MatInputModule,
-  MatPaginatorModule,
-  MatSliderModule,
-  MatSortModule,
-  MatTableModule,
-  MatSnackBarModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import {OwnersService} from './shared/owners.service';
 import { EventLoggingComponent } from './event-logging/event-logging.component';
 import {EventsService} from './event-logging/events.service';
