@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../authService.service';
 import {AuthService as SocialAuthService, GoogleLoginProvider} from 'angularx-social-login';
 import {Globals} from '../gobals';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,10 @@ export class HeaderComponent implements OnInit {
   isCollapsed = true;
   isDevelopment = false;
 
-  constructor(private authService: AuthService, private socialAuthService: SocialAuthService, private globals: Globals) {
+  constructor(private authService: AuthService,
+              private socialAuthService: SocialAuthService,
+              private globals: Globals,
+              private spinner: NgxSpinnerService) {
   }
 
   ngOnInit() {
@@ -45,7 +49,11 @@ export class HeaderComponent implements OnInit {
     console.log('Calling Google Sign In');
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
       (user) => {
-        this.authService.login(user.idToken);
+        this.spinner.show();
+        this.authService.login(user.idToken).subscribe(
+          () => {this.spinner.hide(); },
+          () => {this.spinner.hide(); }
+        );
       },
       (error) => {
         console.log('Error occurred' + error);

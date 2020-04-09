@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Globals} from './gobals';
 import {AuthService as SocialAuthService} from 'angularx-social-login';
@@ -29,12 +29,18 @@ export class AuthService {
   }
 
   login (googleIdToken: string) {
-    return this.http.post(this.globals.dvcApiServer + '/api/token/',
+    const loginCompleteSuccess = new Subject<string>();
+    this.http.post(this.globals.dvcApiServer + '/api/token/',
       { 'google_id_token' : googleIdToken} ).subscribe(
       (response) => {
         this.setSession(response);
+        loginCompleteSuccess.next('Login complete');
+      }, (response: HttpErrorResponse) => {
+        console.log(response.error);
+        loginCompleteSuccess.error(response.error);
       }
     );
+    return loginCompleteSuccess;
   }
 
   getLoggedIn() {
