@@ -14,7 +14,7 @@ export class RoomManagementComponent implements OnInit, OnDestroy {
   private bookableRooms: BookableRoom[] = [];
   selectedResort: Resort;
   private bookableRoomSub: Subscription;
-  @ViewChild('roomTypeChild', {static: false}) roomTypeChild;
+  @ViewChild('roomTypeChild') roomTypeChild;
 
   constructor(private roomsService: RoomsService) {
   }

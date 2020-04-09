@@ -19,8 +19,8 @@ export class PointManagementComponent implements OnInit, OnDestroy {
   ownerDetailsSubscription: Subscription;
   public points_to_bank = 0;
   public points_to_bank_max = 0;
-  @ViewChild('form', {static: false}) myForm: NgForm;
-  @ViewChild('contentConfirmBank', {static: false}) modalContentConfirmBank;
+  @ViewChild('form') myForm: NgForm;
+  @ViewChild('contentConfirmBank') modalContentConfirmBank;
   public allOwners: Owner[];
 
   constructor(private pointsService: PointsService, private ownerService: OwnersService,

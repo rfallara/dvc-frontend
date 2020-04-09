@@ -22,8 +22,8 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
   displayedColumns: string[] = ['booked_date', 'check_in_date', 'check_out_date',
     'owner', 'resort', 'room_type', 'notes', 'points', 'delete'];
   dataSource = new MatTableDataSource<Trip>();
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sorter: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sorter: MatSort;
 
   isLoading = true;
 
