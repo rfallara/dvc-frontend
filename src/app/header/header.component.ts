@@ -50,9 +50,10 @@ export class HeaderComponent implements OnInit {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
       (user) => {
         this.spinner.show();
-        this.authService.login(user.idToken).subscribe(
+        const loginSubject = this.authService.login(user.idToken).subscribe(
           () => {this.spinner.hide(); },
-          () => {this.spinner.hide(); }
+          () => {this.spinner.hide(); },
+          () => { loginSubject.unsubscribe(); }
         );
       },
       (error) => {

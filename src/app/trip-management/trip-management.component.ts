@@ -124,13 +124,14 @@ export class TripManagementComponent implements OnInit, OnDestroy, AfterViewInit
       return;
     }
     trip.notes = newNotes['newNotes'];
-    this.tripsService.updateTrip(trip).subscribe(
+    const updateTripSubject = this.tripsService.updateTrip(trip).subscribe(
       () => {
       },
       (error) => {
         trip.notes = newNotes['originalNotes'];
         console.log(error);
-      }
+      },
+      () => {updateTripSubject.unsubscribe(); }
     );
   }
 
