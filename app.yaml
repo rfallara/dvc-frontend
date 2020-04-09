@@ -8,5 +8,45 @@ handlers:
 - url: /
   static_files: dvc-frontend/index.html
   upload: dvc-frontend/index.html
+  secure: always
 - url: /
   static_dir: dvc-frontend
+  require_matching_file: true
+  secure: always
+- url: /(.*)
+  static_files: dvc-frontend/index.html
+  upload: dvc-frontend/index.html
+  secure: always
+
+
+
+#runtime: python27
+#api_version: '1'
+#env: standard
+#threadsafe: true
+#instance_class: F1
+#handlers:
+#  - url: /
+#    secure: always
+#    application_readable: false
+#    static_files: dvc-frontend/index.html
+#    require_matching_file: false
+#    upload: dvc-frontend/index.html
+#  - url: /(.*)
+#    secure: always
+#    application_readable: false
+#    static_files: dvc-frontend/\1
+#    require_matching_file: true
+#    upload: dvc-frontend/.*
+#  - url: /(.*)
+#    secure: always
+#    application_readable: false
+#    static_files: dvc-frontend/index.html
+#    require_matching_file: false
+#    upload: dvc-frontend/index.html
+#automatic_scaling:
+#  min_idle_instances: automatic
+#  max_idle_instances: automatic
+#  min_pending_latency: automatic
+#  max_pending_latency: automatic
+#network: {}
