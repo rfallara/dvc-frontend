@@ -25,7 +25,7 @@ export class AddTripComponent implements OnInit, OnDestroy {
   public ownersLoading: boolean;
   public resortsLoading: boolean;
   public bookableRoomsLoading: boolean;
-  public checkOutDateMin: string
+  public checkOutDateMin: string;
 
   constructor(public activeModal: NgbActiveModal, private tripsService: TripsService) {
   }
