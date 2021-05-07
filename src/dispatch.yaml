@@ -1,0 +1,8 @@
+dispatch:
+  - url: "*/api/*"
+    service: api
+
+#  - url: "*/app/*"
+#    service: app
+
+# gcloud app deploy dispatch.yaml

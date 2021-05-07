@@ -20,6 +20,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
+              "src/app.yaml",
+              "src/dispatch.yaml",
               "src/favicon.ico",
               "src/assets"
             ],
@@ -52,6 +54,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },
@@ -63,6 +73,9 @@
           "configurations": {
             "production": {
               "browserTarget": "dvc-frontend:build:production"
+            },
+            "dev": {
+              "browserTarget": "dvc-frontend:build:dev"
             }
           }
         },

@@ -1,3 +1,13 @@
+Angular build notes
+===================
+API server in use is managed by environment variables. defaults to localhost.
+To use dvc-dev server: ng serve --configuration=dev
+To use dvc production: ng serve/build --prod
+
+
+
+
+
 When deploying to G Cloud
 =========================
 
@@ -5,7 +15,10 @@ make sure src/app/golbals.ts is set to use the correct backend API
 
 run `ng bulid --prod` to create production bundle in /dist folder
 
-switch to /dist
+switch to dist/dvc-frontend/
 
 run `gcloud app deploy --project <project-name>` to push up to gcloud
-  project is either dvc-restful or dvc-dev
+  project is either dvc-restful or dvc-dev or dvc-287619
+
+  gcloud app deploy --project dvc-restful
+  gcloud app deploy --project dvc-287619
