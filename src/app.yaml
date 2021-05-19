@@ -6,16 +6,32 @@ service: default
 
 handlers:
 - url: /
-  static_files: dvc-frontend/index.html
-  upload: dvc-frontend/index.html
+  static_files: index.html
+  upload: index.html
   secure: always
-- url: /
-  static_dir: dvc-frontend
+
+- url: /(.*\.js)
+  static_files: \1
+  upload: (.*\.js)
+  mime_type: application/javascript
   require_matching_file: true
   secure: always
+
+- url: /(.*\.css)
+  static_files: \1
+  upload: (.*\.css)
+  mime_type: text/css
+  require_matching_file: true
+  secure: always
+
+- url: /assets/
+  static_dir: assets/
+  require_matching_file: true
+  secure: always
+
 - url: /(.*)
-  static_files: dvc-frontend/index.html
-  upload: dvc-frontend/index.html
+  static_files: index.html
+  upload: index.html
   secure: always
 
 

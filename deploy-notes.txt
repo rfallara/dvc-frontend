@@ -1,7 +1,7 @@
 Angular build notes
 ===================
 API server in use is managed by environment variables. defaults to localhost.
-To use dvc-dev server: ng serve --configuration=dev
+To use dvc-dev server: ng serve/build --configuration=dev
 To use dvc production: ng serve/build --prod
 
 
@@ -21,4 +21,4 @@ run `gcloud app deploy --project <project-name>` to push up to gcloud
   project is either dvc-restful or dvc-dev or dvc-287619
 
   gcloud app deploy --project dvc-restful
-  gcloud app deploy --project dvc-287619
+  gcloud app deploy --project dvc-dev

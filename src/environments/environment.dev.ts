@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
+  production: false,
   dvcApiServer: 'https://dvc-dev.fallara.net'
 };
