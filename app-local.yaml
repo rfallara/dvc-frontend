@@ -1,21 +1,21 @@
-runtime: python38
-#api_version: 1
-#threadsafe: true ---removed in python38
+runtime: python27
+api_version: 1
+threadsafe: true
 
 service: default
 
 handlers:
 - url: /
-  static_files: dvc-frontend/index.html
-  upload: dvc-frontend/index.html
+  static_files: dist/dvc-frontend/index.html
+  upload: dist/dvc-frontend/index.html
   secure: always
 - url: /
-  static_dir: dvc-frontend
+  static_dir: dist/dvc-frontend
   require_matching_file: true
   secure: always
 - url: /(.*)
-  static_files: dvc-frontend/index.html
-  upload: dvc-frontend/index.html
+  static_files: dist/dvc-frontend/index.html
+  upload: dist/dvc-frontend/index.html
   secure: always
 
 
